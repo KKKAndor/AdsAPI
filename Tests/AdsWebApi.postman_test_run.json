@@ -1,0 +1,270 @@
+{
+	"id": "66620dd9-e142-4dba-9d81-b671d594f06a",
+	"name": "AdsWebApi",
+	"timestamp": "2022-12-19T14:25:22.836Z",
+	"collection_id": "21089376-7b6a0fad-e47f-4371-b2de-9f4643dc5421",
+	"folder_id": 0,
+	"environment_id": "21089376-03973540-f315-4e37-9d09-32ea1edd6ee2",
+	"totalPass": 6,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "d2d83953-88a0-4ca3-9da5-327c871351c7",
+			"name": "CreateUser",
+			"url": "https://localhost:7191/api/User/CreateUser",
+			"time": 76,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				76
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "c986e76a-6eb9-44a4-98a7-bc889598804f",
+			"name": "GetAllUsers without parameters",
+			"url": "https://localhost:7191/api/User/GetAllUsers",
+			"time": 28,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				28
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "738ff917-8f21-414f-96aa-7724160e5b6b",
+			"name": "GetAllUsers with parameters",
+			"url": "https://localhost:7191/api/User/GetAllUsers/?PageNumber=1&PageSize=30&OrderBy=name",
+			"time": 34,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				34
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "06b62dd7-dc34-4b19-8e15-9c1679af5ae6",
+			"name": "CreateAd",
+			"url": "https://localhost:7191/api/Ad/CreateAd",
+			"time": 63,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				63
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "02d8855d-7670-4370-8383-f4575f79cd1f",
+			"name": "GetAllAds without parameters",
+			"url": "https://localhost:7191/api/Ad/GetAllAds",
+			"time": 51,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "5e5ad46d-7c69-4226-8505-3028237eacf8",
+			"name": "GetAllAds with parameters",
+			"url": "https://localhost:7191/api/Ad/GetAllAds?UserId=39dc8a0d-e02b-4e53-93c8-5e1c576d5ce2&MinNumber=1&MaxNumber=9999999&MinRating=1&MaxRating=90&MinCreationDate=2022-12-18T20:00:00&PageNumber=1&MaxCreationDate=2022-12-22T21:10:00&OrderBy=reverseCreationDate&PageSize=5&ContainDescription=hard",
+			"time": 34,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				34
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "9c130b50-5f0c-49bb-a3eb-bc3b527f9a84",
+			"name": "GetAd",
+			"url": "https://localhost:7191/api/Ad/GetAd/80faf82e-40b9-4029-80fa-f01ba888c929",
+			"time": 26,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				26
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "723efafa-111b-4e4b-9d21-70ca8c27bdf1",
+			"name": "UpdateAd",
+			"url": "https://localhost:7191/api/Ad/UpdateAd",
+			"time": 27,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				27
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "fc851029-aeed-48ee-a6b0-2a46d835e281",
+			"name": "DeleteAd",
+			"url": "https://localhost:7191/api/Ad/DeleteAd/80faf82e-40b9-4029-80fa-f01ba888c929&39dc8a0d-e02b-4e53-93c8-5e1c576d5ce2",
+			"time": 31,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				31
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 370,
+	"collection": {
+		"requests": [
+			{
+				"id": "d2d83953-88a0-4ca3-9da5-327c871351c7",
+				"method": "POST"
+			},
+			{
+				"id": "c986e76a-6eb9-44a4-98a7-bc889598804f",
+				"method": "GET"
+			},
+			{
+				"id": "738ff917-8f21-414f-96aa-7724160e5b6b",
+				"method": "GET"
+			},
+			{
+				"id": "06b62dd7-dc34-4b19-8e15-9c1679af5ae6",
+				"method": "POST"
+			},
+			{
+				"id": "02d8855d-7670-4370-8383-f4575f79cd1f",
+				"method": "GET"
+			},
+			{
+				"id": "5e5ad46d-7c69-4226-8505-3028237eacf8",
+				"method": "GET"
+			},
+			{
+				"id": "9c130b50-5f0c-49bb-a3eb-bc3b527f9a84",
+				"method": "GET"
+			},
+			{
+				"id": "723efafa-111b-4e4b-9d21-70ca8c27bdf1",
+				"method": "PUT"
+			},
+			{
+				"id": "fc851029-aeed-48ee-a6b0-2a46d835e281",
+				"method": "DELETE"
+			}
+		]
+	}
+}

@@ -37,7 +37,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
             await _dbContext.Ads.AddAsync(entity, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new ResponceDto { IsSuccessful = true, Message = "You created Ad" };
+            return new ResponceDto { IsSuccessful = true, Message = entity.Id.ToString() };
         }
     }
 }

@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "7b6a0fad-e47f-4371-b2de-9f4643dc5421",
+		"name": "AdsWebApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21089376"
+	},
+	"item": [
+		{
+			"name": "Ads",
+			"item": [
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "GetAllAds without parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}Ad/GetAllAds",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"GetAllAds"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllAds with parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}Ad/GetAllAds?UserId={{UserId}}&MinNumber=1&MaxNumber=9999999&MinRating=1&MaxRating=90&MinCreationDate=2022-12-18T20:00:00&PageNumber=1&MaxCreationDate=2022-12-22T21:10:00&OrderBy=reverseCreationDate&PageSize=5&ContainDescription=hard",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"GetAllAds"
+									],
+									"query": [
+										{
+											"key": "UserId",
+											"value": "{{UserId}}"
+										},
+										{
+											"key": "MinNumber",
+											"value": "1"
+										},
+										{
+											"key": "MaxNumber",
+											"value": "9999999"
+										},
+										{
+											"key": "MinRating",
+											"value": "1"
+										},
+										{
+											"key": "MaxRating",
+											"value": "90"
+										},
+										{
+											"key": "MinCreationDate",
+											"value": "2022-12-18T20:00:00"
+										},
+										{
+											"key": "PageNumber",
+											"value": "1"
+										},
+										{
+											"key": "MaxCreationDate",
+											"value": "2022-12-22T21:10:00"
+										},
+										{
+											"key": "OrderBy",
+											"value": "reverseCreationDate"
+										},
+										{
+											"key": "PageSize",
+											"value": "5"
+										},
+										{
+											"key": "ContainDescription",
+											"value": "hard"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}Ad/GetAd/{{AdId}}",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"GetAd",
+										"{{AdId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Post",
+					"item": [
+						{
+							"name": "CreateAd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    postman.setEnvironmentVariable(\"AdId\", jsonData.message);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 1,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}Ad/CreateAd",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"CreateAd"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Put",
+					"item": [
+						{
+							"name": "UpdateAd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 1,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}Ad/UpdateAd",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"UpdateAd"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "DeleteAd",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}Ad/DeleteAd/{{AdId}}&{{UserId}}",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"DeleteAd",
+										"{{AdId}}&{{UserId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "GetAllUsers without parameters",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}User/GetAllUsers",
+									"host": [
+										"{{baseurl}}User"
+									],
+									"path": [
+										"GetAllUsers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllUsers with parameters",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}User/GetAllUsers/?PageNumber=1&PageSize=30&OrderBy=name",
+									"host": [
+										"{{baseurl}}User"
+									],
+									"path": [
+										"GetAllUsers",
+										""
+									],
+									"query": [
+										{
+											"key": "ContainName",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "PageNumber",
+											"value": "1"
+										},
+										{
+											"key": "PageSize",
+											"value": "30"
+										},
+										{
+											"key": "OrderBy",
+											"value": "name"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Post",
+					"item": [
+						{
+							"name": "CreateUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    postman.setEnvironmentVariable(\"UserId\", jsonData);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"User2\",\r\n    \"isAdmin\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}User/CreateUser",
+									"host": [
+										"{{baseurl}}User"
+									],
+									"path": [
+										"CreateUser"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://localhost:7191/api/",
+			"type": "string"
+		}
+	]
+}

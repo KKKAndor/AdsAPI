@@ -26,8 +26,8 @@ namespace Ads.WebApi.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET /Ad/GetAllAds/b8da677c-11b5-4895-b523-149233e10568
-        ///                   ?MinNumber=1
+        /// GET /Ad/GetAllAds?b8da677c-11b5-4895-b523-149233e10568
+        ///                   &MinNumber=1
         ///                   &MaxNumber=16
         ///                   &ContainDescription=Some
         ///                   &MinRating=1
@@ -118,7 +118,7 @@ namespace Ads.WebApi.Controllers
         {
             var command = _mapper.Map<CreateAdCommand>(createAdDto);
             var responce = await Mediator.Send(command);
-            return Ok(responce);
+            return StatusCode(201, responce);
         }
 
         /// <summary>

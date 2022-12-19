@@ -77,7 +77,7 @@ namespace Ads.WebApi.Controllers
         {
             var command = _mapper.Map<CreateUserCommand>(createUserDto);
             var id = await Mediator.Send(command);
-            return Ok(id);
+            return StatusCode(201, id);
         }
     }
 }
