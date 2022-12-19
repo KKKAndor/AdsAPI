@@ -26,7 +26,16 @@ namespace Ads.WebApi.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET /Ad/GetAllAds/b8da677c-11b5-4895-b523-149233e10568?MinNumber=1&MaxNumber=16&ContainDescription=Some&MinRating=1&MaxRating=77&MinCreationDate=2022-12-18T20:04:00&MaxCreationDate=2022-12-18T20:04:00&PageNumber=1&PageSize=5&OrderBy=%22number%22
+        /// GET /Ad/GetAllAds/b8da677c-11b5-4895-b523-149233e10568
+        ///                   ?MinNumber=1
+        ///                   &MaxNumber=16
+        ///                   &ContainDescription=Some
+        ///                   &MinRating=1
+        ///                   &MaxRating=77
+        ///                   &MinCreationDate=2022-12-18T20:04:00
+        ///                   &MaxCreationDate=2022-12-18T20:04:00
+        ///                   &PageNumber=1
+        ///                   &PageSize=5&OrderBy=%22number%22
         /// </remarks>
         /// <returns>Returns AdListVm</returns>
         /// <param name="UserId">UserID (Guid)</param>

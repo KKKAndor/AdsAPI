@@ -11,6 +11,7 @@ namespace Ads.WebApi.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
+        [Required]
         public bool IsAdmin { get; set; }
 
         public void Mapping(Profile profile)

@@ -80,12 +80,10 @@ namespace Ads.Application.Ads.Queries.GetAdList
         public void Filter(ref List<AdLookUpDto> list, AdsParameters adsParameters)
         {
             if (adsParameters.MinCreationDate != new DateTime())
-                list = list.Where(ad => ad.CreationDate.Date >= adsParameters.MinCreationDate.Value.Date &&
-                                    ad.CreationDate.TimeOfDay >= adsParameters.MinCreationDate.Value.TimeOfDay).ToList();
+                list = list.Where(ad => ad.CreationDate >= adsParameters.MinCreationDate.Value).ToList();
 
             if (adsParameters.MaxCreationDate != new DateTime())
-                list = list.Where(ad => ad.CreationDate.Date <= adsParameters.MaxCreationDate.Value.Date &&
-                                    ad.CreationDate.TimeOfDay <= adsParameters.MaxCreationDate.Value.TimeOfDay).ToList();
+                list = list.Where(ad => ad.CreationDate <= adsParameters.MaxCreationDate.Value).ToList();
 
             if (adsParameters.MinNumber != null)
                 list = list.Where(ad => ad.Number >= adsParameters.MinNumber).ToList();

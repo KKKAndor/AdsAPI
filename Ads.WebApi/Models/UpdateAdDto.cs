@@ -13,14 +13,19 @@ namespace Ads.WebApi.Models
         [Required]
         public Guid Id { get; set; }
 
+        [Required]
         public int Number { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public string ImagePath { get; set; }
 
+        [Required]
         public int Rating { get; set; }
 
+        [Required]
         public DateTime ExpirationDate { get; set; }
 
         public void Mapping(Profile profile)

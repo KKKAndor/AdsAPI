@@ -12,17 +12,14 @@ namespace Ads.Application.Ads.Commands.CreateAd
         public CreateAdCommandValidator()
         {
             RuleFor(command =>
-                command.Number).NotEmpty();
-            RuleFor(command =>
                 command.UserId).NotEqual(Guid.Empty);
             RuleFor(command =>
-                command.Description).NotEmpty().MaximumLength(250);
+                command.Description).MaximumLength(250);            
             RuleFor(command =>
-                command.ImagePath).NotEmpty();
+                command.ExpirationDate).GreaterThan(DateTime.Now.Date);
             RuleFor(command =>
-                command.Rating).NotEmpty();
-            RuleFor(command =>
-                command.ExpirationDate).NotEmpty();
+                command.Rating).GreaterThanOrEqualTo(0).LessThanOrEqualTo(100);
+
         }
     }
 }

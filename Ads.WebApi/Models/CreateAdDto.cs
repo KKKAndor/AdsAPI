@@ -11,12 +11,16 @@ namespace Ads.WebApi.Models
         [Required]
         public Guid UserId { get; set; }
 
+        [Required]
         public int Number { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public string ImagePath { get; set; }
 
+        [Required]
         public int Rating { get; set; }
 
         [Required]

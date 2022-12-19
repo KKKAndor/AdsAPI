@@ -19,8 +19,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
         [Required]
         public string ImagePath { get; set; }
 
-        [Required]
-        [Range(1,100)]
+        [Range(0,100)]
         public int Rating { get; set; }
 
         [Required]
