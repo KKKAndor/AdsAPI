@@ -66,9 +66,10 @@ namespace Ads.Application.Ads.Queries.GetAdList
 
             Sort(ref list, request.AdsParameters);
 
-            var pagedList = new PagedList<AdLookUpDto>(
-                list,
-                list.Count(),
+            var queryable = list.AsQueryable();
+
+            var pagedList = PagedList<AdLookUpDto>.ToPagedList(
+                queryable,
                 request.AdsParameters.PageNumber,
                 request.AdsParameters.PageSize
                 );

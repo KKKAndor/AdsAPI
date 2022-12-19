@@ -6,6 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Ads.Application.User.Queries.GetUserList
 {
@@ -36,9 +37,10 @@ namespace Ads.Application.User.Queries.GetUserList
             if (!string.IsNullOrWhiteSpace(request.userParameters.ContainName))
                 Search(ref Query, request.userParameters);
 
-            var pagedList = new PagedList<UserDataLookUpDto>(
-                Query,
-                Query.Count(),
+            var queryable = Query.AsQueryable();
+
+            var pagedList = PagedList<UserDataLookUpDto>.ToPagedList(
+                queryable,
                 request.userParameters.PageNumber,
                 request.userParameters.PageSize
                 );
