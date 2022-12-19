@@ -85,7 +85,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
 
             if (adsParameters.MaxCreationDate != new DateTime())
                 list = list.Where(ad => ad.CreationDate.Date <= adsParameters.MaxCreationDate.Value.Date &&
-                                    ad.CreationDate.TimeOfDay <= adsParameters.MinCreationDate.Value.TimeOfDay).ToList();
+                                    ad.CreationDate.TimeOfDay <= adsParameters.MaxCreationDate.Value.TimeOfDay).ToList();
 
             if (adsParameters.MinNumber != null)
                 list = list.Where(ad => ad.Number >= adsParameters.MinNumber).ToList();
