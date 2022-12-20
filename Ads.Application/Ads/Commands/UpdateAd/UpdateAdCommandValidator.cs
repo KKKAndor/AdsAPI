@@ -12,19 +12,33 @@ namespace Ads.Application.Ads.Commands.UpdateAd
         public UpdateAdCommandValidator()
         {
             RuleFor(command =>
-                command.Id).NotEqual(Guid.Empty);
+                command.Id)
+                .NotEqual(Guid.Empty);
             RuleFor(command =>
-                command.Number).NotEmpty();
+                command.Number)
+                .NotEmpty();
             RuleFor(command =>
-                command.UserId).NotEqual(Guid.Empty);
+                command.UserId)
+                .NotEqual(Guid.Empty);
             RuleFor(command =>
-                command.Description).NotEmpty().MaximumLength(250);
+                command.Description)
+                .NotEmpty()
+                .WithMessage("You should add some description in your add")
+                .MaximumLength(500)
+                .WithMessage("The description length must be lesse than 500");
             RuleFor(command =>
-                command.ImagePath).NotEmpty();
+                command.ImagePath)
+                .NotEmpty();
             RuleFor(command =>
-                command.Rating).NotEmpty();
+                command.ExpirationDate)
+                .GreaterThan(DateTime.Now.Date)
+                .WithMessage("The expiration date should be after today");
             RuleFor(command =>
-                command.ExpirationDate).NotEmpty();
+                command.Rating)
+                .LessThanOrEqualTo(100)
+                .WithMessage("Rating must be lesser or equal to 100")
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Rating must be lesser or equal to 0");
         }
     }
 }

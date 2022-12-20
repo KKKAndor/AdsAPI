@@ -20,7 +20,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
             var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
             if (_dbContext.Ads.Where(ad => ad.UserId == request.UserId).Count() + 1 > 10 && !user.IsAdmin)
-                return new ResponceDto { IsSuccessful = false, Message = "User cannot create more than 10 Ads" };
+                throw new Exception("User cannot create more than 10 Ads");
 
             var entity = new Ad
             {

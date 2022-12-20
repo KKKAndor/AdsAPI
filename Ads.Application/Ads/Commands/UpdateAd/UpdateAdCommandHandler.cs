@@ -20,9 +20,14 @@ namespace Ads.Application.Ads.Commands.UpdateAd
         {
             var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(AppUser), request.UserId);
+            }
+
             var entity =
                 await _dbContext.Ads.FirstOrDefaultAsync(a =>
-                a.Id == request.Id && a.UserId == request.UserId, cancellationToken);
+                a.Id == request.Id, cancellationToken);
 
             if (entity == null)
             {

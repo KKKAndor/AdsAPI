@@ -1,0 +1,111 @@
+{
+	"id": "4ba55495-c701-4c34-a6f1-f0ebb6dc0b5c",
+	"name": "AdsWebApi",
+	"timestamp": "2022-12-20T17:54:59.136Z",
+	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"folder_id": 0,
+	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
+	"totalPass": 1,
+	"totalFail": 2,
+	"results": [
+		{
+			"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+			"name": "GetAd",
+			"url": "https://localhost:7191/api/Ad/GetAd/9435565c-41c6-4ef0-8a3e-1927ea987dcd",
+			"time": 6342,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6342
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+			"name": "UpdateAd",
+			"url": "https://localhost:7191/api/Ad/UpdateAd",
+			"time": 1785,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Verify that status code is 200": false
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				1785
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+			"name": "DeleteAd",
+			"url": "https://localhost:7191/api/Ad/DeleteAd/9435565c-41c6-4ef0-8a3e-1927ea987dcd&87aa2490-103b-4f45-8158-55bc9f730cf8",
+			"time": 1089,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Verify that status code is 200": false
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				1089
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": false
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 9216,
+	"collection": {
+		"requests": [
+			{
+				"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+				"method": "GET"
+			},
+			{
+				"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+				"method": "PUT"
+			},
+			{
+				"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+				"method": "DELETE"
+			}
+		]
+	}
+}

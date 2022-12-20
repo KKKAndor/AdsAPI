@@ -25,6 +25,11 @@ namespace Ads.Application.Ads.Commands.DeleteAd
         {
             var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(AppUser), request.UserId);
+            }
+
             var entity = await _dbContext.Ads
                 .FindAsync(new object[] { request.Id }, cancellationToken);
 
@@ -33,8 +38,8 @@ namespace Ads.Application.Ads.Commands.DeleteAd
                 throw new NotFoundException(nameof(Ad), request.Id);
             }
 
-            if(!user.IsAdmin && entity.UserId != request.UserId)
-                return new ResponceDto { IsSuccessful = false, Message = "You cannot delete this add" };
+            if (!user.IsAdmin && entity.UserId != request.UserId)
+                throw new Exception("You cannot delete this add");
 
             _dbContext.Ads.Remove(entity);
 

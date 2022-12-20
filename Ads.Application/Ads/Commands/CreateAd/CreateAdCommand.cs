@@ -13,7 +13,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
         public Guid UserId { get; set; }
 
         [Required]
-        [MaxLength(250)]
+        [MaxLength(500)]
         public string Description { get; set; }
 
         [Required]

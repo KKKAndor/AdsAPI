@@ -1,0 +1,88 @@
+{
+	"id": "1e8f1ac1-2880-46cb-8fd0-2503da1a5581",
+	"name": "AdsWebApi",
+	"timestamp": "2022-12-20T18:00:47.204Z",
+	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"folder_id": 0,
+	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
+	"totalPass": 11,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+			"name": "CreateAd",
+			"time": 107,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Verify that status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 201": {
+					"pass": 11,
+					"fail": 0
+				}
+			},
+			"times": [
+				117,
+				120,
+				107,
+				89,
+				90,
+				202,
+				142,
+				144,
+				99,
+				146,
+				107
+			],
+			"allTests": [
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				},
+				{
+					"Verify that status code is 201": true
+				}
+			]
+		}
+	],
+	"count": 11,
+	"totalTime": 1363,
+	"collection": {
+		"requests": [
+			{
+				"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+				"method": "POST"
+			}
+		]
+	}
+}

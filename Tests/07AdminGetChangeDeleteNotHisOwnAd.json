@@ -1,0 +1,111 @@
+{
+	"id": "153bd60a-868d-480d-b1cb-74ff6be82843",
+	"name": "AdsWebApi",
+	"timestamp": "2022-12-20T18:04:46.707Z",
+	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"folder_id": 0,
+	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
+	"totalPass": 3,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+			"name": "GetAd",
+			"url": "https://localhost:7191/api/Ad/GetAd/58c60205-3ed4-4c29-a46f-0b7a8249e05d",
+			"time": 3878,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3878
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+			"name": "UpdateAd",
+			"url": "https://localhost:7191/api/Ad/UpdateAd",
+			"time": 1348,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1348
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+			"name": "DeleteAd",
+			"url": "https://localhost:7191/api/Ad/DeleteAd/58c60205-3ed4-4c29-a46f-0b7a8249e05d&abe5cca1-b0de-4344-979c-2125753abfcd",
+			"time": 361,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				361
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 5587,
+	"collection": {
+		"requests": [
+			{
+				"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+				"method": "GET"
+			},
+			{
+				"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+				"method": "PUT"
+			},
+			{
+				"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+				"method": "DELETE"
+			}
+		]
+	}
+}

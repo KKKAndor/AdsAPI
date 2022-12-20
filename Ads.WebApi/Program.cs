@@ -27,6 +27,7 @@ builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddControllers();
 
+
 builder.Services.AddSwaggerGen(config =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -63,6 +64,7 @@ app.UseSwaggerUI(config =>
     config.SwaggerEndpoint("swagger/v1/swagger.json", "Ads API");
 });
 app.UseCustomExceptionHandler();
+app.UseHsts();
 app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");

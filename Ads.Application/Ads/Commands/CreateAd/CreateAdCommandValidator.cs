@@ -12,14 +12,30 @@ namespace Ads.Application.Ads.Commands.CreateAd
         public CreateAdCommandValidator()
         {
             RuleFor(command =>
-                command.UserId).NotEqual(Guid.Empty);
+                command.Number)
+                .NotEmpty();
             RuleFor(command =>
-                command.Description).MaximumLength(250);            
+                command.UserId)
+                .NotEqual(Guid.Empty);
             RuleFor(command =>
-                command.ExpirationDate).GreaterThan(DateTime.Now.Date);
+                command.Description)
+                .NotEmpty()
+                .WithMessage("You should add some description in your add")
+                .MaximumLength(500)
+                .WithMessage("The description length must be lesse than 500");
             RuleFor(command =>
-                command.Rating).GreaterThanOrEqualTo(0).LessThanOrEqualTo(100);
-
+                command.ImagePath)
+                .NotEmpty();
+            RuleFor(command =>
+                command.ExpirationDate)
+                .GreaterThan(DateTime.Now.Date)
+                .WithMessage("The expiration date should be after today");
+            RuleFor(command =>
+                command.Rating)
+                .LessThanOrEqualTo(100)
+                .WithMessage("Rating must be lesser or equal to 100")
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Rating must be lesser or equal to 0");
         }
     }
 }

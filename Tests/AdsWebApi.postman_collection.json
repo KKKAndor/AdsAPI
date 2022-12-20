@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7b6a0fad-e47f-4371-b2de-9f4643dc5421",
+		"_postman_id": "1b6c9a71-739f-4281-a8ec-6cf6874990a3",
 		"name": "AdsWebApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21089376"
@@ -161,10 +161,11 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status test\", function () {\r",
+											"pm.test(\"Verify that status code is 201\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"    var jsonData = JSON.parse(responseBody);\r",
-											"    postman.setEnvironmentVariable(\"AdId\", jsonData.message);\r",
+											"    if(jsonData.message !== \"User cannot create more than 10 Ads\")\r",
+											"        postman.setEnvironmentVariable(\"AdId\", jsonData.message);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -176,7 +177,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 1,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}\r\n",
+									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 100,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -220,7 +221,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 1,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
+									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 88,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -246,6 +247,19 @@
 					"item": [
 						{
 							"name": "DeleteAd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -274,6 +288,19 @@
 					"item": [
 						{
 							"name": "GetAllUsers without parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -291,6 +318,19 @@
 						},
 						{
 							"name": "GetAllUsers with parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -338,7 +378,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status test\", function () {\r",
+											"pm.test(\"Verify that status code is 201\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"    var jsonData = JSON.parse(responseBody);\r",
 											"    postman.setEnvironmentVariable(\"UserId\", jsonData);\r",
@@ -354,6 +394,47 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"name\": \"User2\",\r\n    \"isAdmin\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}User/CreateUser",
+									"host": [
+										"{{baseurl}}User"
+									],
+									"path": [
+										"CreateUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    postman.setEnvironmentVariable(\"UserId\", jsonData);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Admin11\",\r\n    \"isAdmin\": true\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

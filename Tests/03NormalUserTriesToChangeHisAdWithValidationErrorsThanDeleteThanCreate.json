@@ -1,0 +1,142 @@
+{
+	"id": "499a9ed8-4d99-4bab-aaae-dbd8b6d3db73",
+	"name": "AdsWebApi",
+	"timestamp": "2022-12-20T17:48:58.000Z",
+	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"folder_id": 0,
+	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
+	"totalPass": 3,
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+			"name": "GetAd",
+			"url": "https://localhost:7191/api/Ad/GetAd/37c6dd30-134a-4ca0-ac47-d001e7436e60",
+			"time": 216,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				216
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+			"name": "UpdateAd",
+			"url": "https://localhost:7191/api/Ad/UpdateAd",
+			"time": 7305,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Verify that status code is 200": false
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				7305
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": false
+				}
+			]
+		},
+		{
+			"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+			"name": "DeleteAd",
+			"url": "https://localhost:7191/api/Ad/DeleteAd/37c6dd30-134a-4ca0-ac47-d001e7436e60&87aa2490-103b-4f45-8158-55bc9f730cf8",
+			"time": 464,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				464
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+			"name": "CreateAd",
+			"url": "https://localhost:7191/api/Ad/CreateAd",
+			"time": 129,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Verify that status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				129
+			],
+			"allTests": [
+				{
+					"Verify that status code is 201": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 8114,
+	"collection": {
+		"requests": [
+			{
+				"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+				"method": "GET"
+			},
+			{
+				"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+				"method": "PUT"
+			},
+			{
+				"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+				"method": "DELETE"
+			},
+			{
+				"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+				"method": "POST"
+			}
+		]
+	}
+}
