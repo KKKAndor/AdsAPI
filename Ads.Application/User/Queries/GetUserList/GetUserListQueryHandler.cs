@@ -1,12 +1,15 @@
 ﻿using Ads.Application.Common;
 using Ads.Application.Common.Exceptions;
 using Ads.Application.Interfaces;
-using Ads.Application.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using Ads.Application.Common.Models;
+using Ads.Domain;
 
 namespace Ads.Application.User.Queries.GetUserList
 {
@@ -23,58 +26,72 @@ namespace Ads.Application.User.Queries.GetUserList
         public async Task<UserDataListVm> Handle(GetUserListQuery request,
             CancellationToken cancellationToken)
         {
-            var Query = await _dbContext.AppUsers
-                .ProjectTo<UserDataLookUpDto>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+            IQueryable<AppUser> query = _dbContext.AppUsers;
+            
+            ApplySearch(ref query, request.userParameters.Contain);
+            
+            ApplySort(ref query, request.userParameters.OrderBy);
 
-            if (Query.Count == 0)
-            {
-                throw new NotFoundException(nameof(UserDataListVm), request.ToString());
-            }
-
-            Sort(ref Query, request.userParameters);
-
-            if (!string.IsNullOrWhiteSpace(request.userParameters.ContainName))
-                Search(ref Query, request.userParameters);
-
-            var queryable = Query.AsQueryable();
-
-            var pagedList = PagedList<UserDataLookUpDto>.ToPagedList(
-                queryable,
+            var list = query.ProjectTo<UserDataLookUpDto>(_mapper.ConfigurationProvider);
+            
+            var pagedList = await PagedList<UserDataLookUpDto>.ToPagedList(
+                list,
                 request.userParameters.PageNumber,
-                request.userParameters.PageSize
-                );
+                request.userParameters.PageSize,
+                cancellationToken
+            );
+            
+            if (pagedList.TotalCount == 0)
+            {
+                throw new NotFoundException(nameof(UserDataListVm), request);
+            }
 
             return new UserDataListVm { UserList = pagedList };
         }
 
-        public void Search(ref List<UserDataLookUpDto> list, UserParameters userParameters)
+        private void ApplySearch(ref IQueryable<AppUser> query, string? contain)
         {
-            list = list.Where(ad => ad.Name.ToLower()
-                .Contains(userParameters.ContainName.ToLower())).ToList();
+            if(string.IsNullOrWhiteSpace(contain))
+                return;
+            query = query.Where(x => 
+                x.Name.ToLower().Contains(contain.ToLower()));
         }
 
-        public void Sort(ref List<UserDataLookUpDto> list, UserParameters adsParameters)
+        private void ApplySort(ref IQueryable<AppUser> query, string orderByQueryString)
         {
-            var orders = adsParameters.OrderBy.Split(',');
-            foreach (var order in orders)
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
             {
-                switch (order)
+                query = query.OrderBy(x => x.Name);
+            }
+            var orderParams = orderByQueryString.Trim().Split(',');
+            var propertyInfos = typeof(Ad).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var orderQueryBuilder = new StringBuilder();
+            foreach (var param in orderParams)
+            {
+                if (string.IsNullOrWhiteSpace(param))
+                    continue;
+                var propertyFromQueryName = param.Split(" - ")[0];
+                var objectProperty = propertyInfos.FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
+                if (objectProperty == null)
+                    continue;
+                var sortingOrder = param.EndsWith(" desc") ? "descending" : "ascending";
+                switch (sortingOrder)
                 {
-                    case "id":
-                        list = list.OrderBy(o => o.Id).ToList();
+                    case "descending":
+                        switch (objectProperty.Name.ToString())
+                        {
+                            case "Name":
+                                query = query.OrderBy(x => x.Name).Reverse();
+                                break;
+                        }
                         break;
-                    case "reverseid":
-                        list = list.OrderBy(o => o.Id).Reverse().ToList();
-                        break;
-                    case "name":
-                        list = list.OrderBy(o => o.Name).ToList();
-                        break;
-                    case "reverseName":
-                        list = list.OrderBy(o => o.Name).Reverse().ToList();
-                        break;
-                    default:
-                        list = list.OrderBy(o => o.Id).ToList();
+                    case "ascending":
+                        switch (objectProperty.Name.ToString())
+                        {
+                            case "Name":
+                                query = query.OrderBy(x => x.Name);
+                                break;
+                        }
                         break;
                 }
             }

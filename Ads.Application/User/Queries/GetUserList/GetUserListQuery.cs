@@ -1,4 +1,4 @@
-﻿using Ads.Application.Models;
+﻿using Ads.Application.Common.Models;
 using MediatR;
 
 namespace Ads.Application.User.Queries.GetUserList

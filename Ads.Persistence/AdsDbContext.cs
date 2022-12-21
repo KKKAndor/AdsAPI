@@ -18,17 +18,8 @@ namespace Ads.Persistence
         {
             base.OnModelCreating(builder);
 
-
             builder.ApplyConfiguration(new AdConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
-        }
-
-        public static string ConnectionString
-        {
-            get
-            {
-                return "SQLConnection";
-            }
         }
     }
 

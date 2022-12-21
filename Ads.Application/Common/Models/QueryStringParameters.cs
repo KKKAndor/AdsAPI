@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ads.Application.Models
+﻿namespace Ads.Application.Common.Models
 {
     public abstract class QueryStringParameters
     {
@@ -27,5 +21,7 @@ namespace Ads.Application.Models
         }
 
         public string OrderBy { get; set; }
+        
+        public string? Contain { get; set; }
     }
 }

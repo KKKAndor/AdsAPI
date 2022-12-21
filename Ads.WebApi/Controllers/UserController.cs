@@ -1,4 +1,4 @@
-﻿using Ads.Application.Models;
+﻿using Ads.Application.Common.Models;
 using Ads.Application.User.Commands.CreateUser;
 using Ads.Application.User.Queries.GetUserList;
 using Ads.WebApi.Models;

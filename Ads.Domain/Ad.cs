@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Domain
 {
@@ -11,11 +12,11 @@ namespace Ads.Domain
 
         public Guid UserId { get; set; }
 
-        public int? Number { get; set; }
+        public int Number { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
         
-        public string? ImagePath { get; set; }
+        public string ImagePath { get; set; }
 
         public int Rating { get; set; }
 

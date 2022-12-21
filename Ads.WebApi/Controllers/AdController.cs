@@ -4,7 +4,7 @@ using Ads.Application.Ads.Commands.UpdateAd;
 using Ads.Application.Ads.Queries.GetAdDetails;
 using Ads.Application.Ads.Queries.GetAdList;
 using Ads.Application.Common;
-using Ads.Application.Models;
+using Ads.Application.Common.Models;
 using Ads.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

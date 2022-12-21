@@ -1,17 +1,14 @@
 ﻿using Ads.Application.Common;
 using Ads.Application.Common.Exceptions;
 using Ads.Application.Interfaces;
-using Ads.Application.Models;
 using Ads.Domain;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+using Ads.Application.Common.Models;
 
 namespace Ads.Application.Ads.Queries.GetAdList
 {
@@ -21,125 +18,146 @@ namespace Ads.Application.Ads.Queries.GetAdList
         private readonly IAdsDbContext _dbContext;
 
         private readonly IMapper _mapper;
-
+        
         public GetAdListQueryHandler(IAdsDbContext dbContext,
             IMapper mapper) => (_dbContext, _mapper) = (dbContext, mapper);
 
         public async Task<AdListVm> Handle(GetAdListQuery request,
             CancellationToken cancellationToken)
         {
-            List<AdLookUpDto> list = new List<AdLookUpDto>();
+            IQueryable<Ad> query;
+
             var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
             if (user != null)
             {
-                if (user.IsAdmin)
+                if (!user.IsAdmin)
                 {
-                    list = await _dbContext.Ads
-                        .ProjectTo<AdLookUpDto>(_mapper.ConfigurationProvider)
-                        .ToListAsync(cancellationToken);                    
+                    query = _dbContext.Ads.Include(x=>x.User).Where(ad => ad.ExpirationDate.Date > DateTime.Now.Date);
                 }
                 else
                 {
-                    list = await _dbContext.Ads
-                        .Where(ad => ad.ExpirationDate.Date > DateTime.Now.Date)
-                        .ProjectTo<AdLookUpDto>(_mapper.ConfigurationProvider)
-                        .ToListAsync(cancellationToken);
+                    query = _dbContext.Ads.Include(x=>x.User);
                 }
             }
             else
             {
-                list = await _dbContext.Ads
-                                        .Where(ad => ad.ExpirationDate.Date > DateTime.Now.Date)
-                                        .ProjectTo<AdLookUpDto>(_mapper.ConfigurationProvider)
-                                        .ToListAsync(cancellationToken);
+                query = _dbContext.Ads.Include(x=>x.User).Where(ad => ad.ExpirationDate.Date > DateTime.Now.Date);
             }
 
-            if (list.Count == 0)
+            ApplyFilter(ref query, request.AdsParameters);
+            
+            ApplySearch(ref query, request.AdsParameters.Contain);
+            
+            ApplySort(ref query, request.AdsParameters.OrderBy);
+
+            var list = query.ProjectTo<AdLookUpDto>(_mapper.ConfigurationProvider);
+            
+            var pagedList = await PagedList<AdLookUpDto>.ToPagedList(
+                list,
+                request.AdsParameters.PageNumber,
+                request.AdsParameters.PageSize,
+                cancellationToken
+            );
+            
+            if (pagedList.TotalCount == 0)
             {
                 throw new NotFoundException(nameof(AdListVm), request);
             }
 
-            Filter(ref list, request.AdsParameters);
-
-            if (!string.IsNullOrWhiteSpace(request.AdsParameters.ContainDescription))
-                Search(ref list, request.AdsParameters);
-
-            Sort(ref list, request.AdsParameters);
-
-            var queryable = list.AsQueryable();
-
-            var pagedList = PagedList<AdLookUpDto>.ToPagedList(
-                queryable,
-                request.AdsParameters.PageNumber,
-                request.AdsParameters.PageSize
-                );
-
             return new AdListVm { Ads = pagedList };
         }
 
-        public void Filter(ref List<AdLookUpDto> list, AdsParameters adsParameters)
+        private void ApplySearch(ref IQueryable<Ad> query, string? contain)
         {
-            if (adsParameters.MinCreationDate != new DateTime())
-                list = list.Where(ad => ad.CreationDate >= adsParameters.MinCreationDate.Value).ToList();
-
-            if (adsParameters.MaxCreationDate != new DateTime())
-                list = list.Where(ad => ad.CreationDate <= adsParameters.MaxCreationDate.Value).ToList();
-
-            if (adsParameters.MinNumber != null)
-                list = list.Where(ad => ad.Number >= adsParameters.MinNumber).ToList();
-
-            if (adsParameters.MaxNumber != null)
-                list = list.Where(ad => ad.Number <= adsParameters.MaxNumber).ToList();
-
-            if (adsParameters.MinRating != null)
-                list = list.Where(ad => ad.Rating >= adsParameters.MinRating).ToList();
-
-            if (adsParameters.MaxRating != null)
-                list = list.Where(ad => ad.Rating <= adsParameters.MaxRating).ToList();
+            if(string.IsNullOrWhiteSpace(contain))
+                return;
+            query = query.Where(x => 
+                x.Description.ToLower().Contains(contain.ToLower()) ||
+                x.Number.ToString().Contains(contain.ToLower()) ||
+                x.User.Name.Contains(contain.ToLower()));
         }
 
-        public void Search(ref List<AdLookUpDto> list, AdsParameters adsParameters)
+        private void ApplyFilter(ref IQueryable<Ad> query, AdsParameters requestAdsParameters)
         {
-            list = list.Where(ad => ad.Description.ToLower()
-                .Contains(adsParameters.ContainDescription.ToLower())).ToList();
+            if(requestAdsParameters.MinRating != null)
+                query = query.Where(x => x.Rating >= requestAdsParameters.MinRating);
+            if(requestAdsParameters.MaxRating != null)
+                query = query.Where(x => x.Rating <= requestAdsParameters.MaxRating);
+            if(requestAdsParameters.MinCreationDate != null)
+                query = query.Where(x => x.CreationDate >= requestAdsParameters.MinCreationDate.Value);
+            if(requestAdsParameters.MaxCreationDate != null)
+                query = query.Where(x => x.CreationDate <= requestAdsParameters.MaxCreationDate.Value);
         }
 
-        public void Sort(ref List<AdLookUpDto> list, AdsParameters adsParameters)
+
+        private void ApplySort(ref IQueryable<Ad> query, string orderByQueryString)
         {
-            var orders = adsParameters.OrderBy.Split(',');
-            foreach(var order in orders)
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
             {
-                switch (order)
+                query = query.OrderBy(x => x.ExpirationDate);
+            }
+            var orderParams = orderByQueryString.Trim().Split(',');
+            var propertyInfos = typeof(Ad).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var orderQueryBuilder = new StringBuilder();
+            foreach (var param in orderParams)
+            {
+                if (string.IsNullOrWhiteSpace(param))
+                    continue;
+                var propertyFromQueryName = param.Split(" - ")[0];
+                var objectProperty = propertyInfos.FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
+                if (objectProperty == null)
+                    continue;
+                var sortingOrder = param.EndsWith(" desc") ? "descending" : "ascending";
+                switch (sortingOrder)
                 {
-                    case "number":
-                        list = list.OrderBy(o => o.Number).ToList();
+                    case "descending":
+                        switch (objectProperty.Name.ToString())
+                        {
+                            case "UserName":
+                                query = query.OrderBy(x => x.User.Name).Reverse();
+                                break;
+                            case "CreationDate":
+                                query = query.OrderBy(x => x.CreationDate).Reverse();
+                                break;
+                            case "ExpirationDate":
+                                query = query.OrderBy(x => x.ExpirationDate).Reverse();
+                                break;
+                            case "Number":
+                                query = query.OrderBy(x => x.Number).Reverse();
+                                break;
+                            case "Description":
+                                query = query.OrderBy(x => x.Description).Reverse();
+                                break;
+                            case "Rating":
+                                query = query.OrderBy(x => x.Rating).Reverse();
+                                break;
+                        }
                         break;
-                    case "reverseNumber":
-                        list = list.OrderBy(o => o.Number).Reverse().ToList();
-                        break;
-                    case "rating":
-                        list = list.OrderBy(o => o.Rating).ToList();
-                        break;
-                    case "reverseRating":
-                        list = list.OrderBy(o => o.Rating).Reverse().ToList();
-                        break;
-                    case "creationDate":
-                        list = list.OrderBy(o => o.CreationDate).ToList();
-                        break;
-                    case "reverseCreationDate":
-                        list = list.OrderBy(o => o.CreationDate).Reverse().ToList();
-                        break;
-                    case "expirationDate":
-                        list = list.OrderBy(o => o.ExpirationDate).ToList();
-                        break;
-                    case "reverseExpirationDate":
-                        list = list.OrderBy(o => o.ExpirationDate).Reverse().ToList();
-                        break;
-                    default:
-                        list = list.OrderBy(o => o.ExpirationDate).ToList();
+                    case "ascending":
+                        switch (objectProperty.Name.ToString())
+                        {
+                            case "UserName":
+                                query = query.OrderBy(x => x.User.Name);
+                                break;
+                            case "CreationDate":
+                                query = query.OrderBy(x => x.CreationDate);
+                                break;
+                            case "ExpirationDate":
+                                query = query.OrderBy(x => x.ExpirationDate);
+                                break;
+                            case "Number":
+                                query = query.OrderBy(x => x.Number);
+                                break;
+                            case "Description":
+                                query = query.OrderBy(x => x.Description);
+                                break;
+                            case "Rating":
+                                query = query.OrderBy(x => x.Rating);
+                                break;
+                        }
                         break;
                 }
             }
-        }       
+        }
     }
 }

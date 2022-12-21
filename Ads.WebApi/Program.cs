@@ -18,11 +18,6 @@ builder.Services.AddAutoMapper(con =>
     con.AddProfile(new AssemblyMappingProfile(typeof(IAdsDbContext).Assembly));
 });
 
-builder.Services.AddDbContext<AdsDbContext>(options =>
-    options.UseSqlServer(
-            builder.Configuration
-                .GetConnectionString(AdsDbContext.ConnectionString)));
-
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddControllers();

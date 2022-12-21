@@ -1,6 +1,6 @@
-﻿using Ads.Application.Models;
-using MediatR;
+﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
+using Ads.Application.Common.Models;
 
 namespace Ads.Application.Ads.Queries.GetAdList
 {

@@ -1,11 +1,6 @@
 ﻿using Ads.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ads.Persistence.EntityTypeConfigurations
 {
@@ -16,7 +11,7 @@ namespace Ads.Persistence.EntityTypeConfigurations
             builder
                 .HasKey(ad => ad.Id);
             builder
-                .HasIndex(ad => ad.Id)
+                .HasIndex(ad => new { ad.Id, ad.UserId, ad.Number})
                 .IsUnique();
             builder
                 .Property(ad => ad.UserId)

@@ -6,6 +6,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
 {
     public class AdLookUpDto : IMapWith<Ad>
     {
+        public string UserName { get; set; }
         public Guid Id { get; set; }
 
         public int Number { get; set; }
@@ -21,6 +22,8 @@ namespace Ads.Application.Ads.Queries.GetAdList
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Ad, AdLookUpDto>()
+                .ForMember(Vm => Vm.UserName,
+                    opt => opt.MapFrom(ap => ap.User.Name))
                 .ForMember(Vm => Vm.Id,
                     opt => opt.MapFrom(ap => ap.Id))
                 .ForMember(Vm => Vm.Number,

@@ -35,7 +35,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
                 .LessThanOrEqualTo(100)
                 .WithMessage("Rating must be lesser or equal to 100")
                 .GreaterThanOrEqualTo(0)
-                .WithMessage("Rating must be lesser or equal to 0");
+                .WithMessage("Rating must be greater or equal to 0");
         }
     }
 }
