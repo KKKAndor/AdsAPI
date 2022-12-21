@@ -7,6 +7,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
     public class AdLookUpDto : IMapWith<Ad>
     {
         public string UserName { get; set; }
+        
         public Guid Id { get; set; }
 
         public int Number { get; set; }
