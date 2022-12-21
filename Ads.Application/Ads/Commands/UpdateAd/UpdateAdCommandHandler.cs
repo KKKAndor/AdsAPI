@@ -1,5 +1,6 @@
 ﻿using Ads.Application.Common;
 using Ads.Application.Common.Exceptions;
+using Ads.Application.Common.Responces;
 using Ads.Application.Interfaces;
 using Ads.Domain;
 using MediatR;
@@ -18,16 +19,18 @@ namespace Ads.Application.Ads.Commands.UpdateAd
         public async Task<ResponceDto> Handle(UpdateAdCommand request,
             CancellationToken cancellationToken)
         {
-            var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+            var user = await 
+                _dbContext.AppUsers.FirstOrDefaultAsync(
+                    u => u.Id == request.UserId, cancellationToken);
 
             if (user == null)
             {
                 throw new NotFoundException(nameof(AppUser), request.UserId);
             }
 
-            var entity =
-                await _dbContext.Ads.FirstOrDefaultAsync(a =>
-                a.Id == request.Id, cancellationToken);
+            var entity = await 
+                _dbContext.Ads.FirstOrDefaultAsync(
+                    a => a.Id == request.Id, cancellationToken);
 
             if (entity == null)
             {

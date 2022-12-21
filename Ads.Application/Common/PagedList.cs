@@ -15,7 +15,8 @@ namespace Ads.Application.Common
         public int TotalCount { get; private set; }
         public bool HasPrevious => CurrentPage > 1;
         public bool HasNext => CurrentPage < TotalPages;
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+
+        private PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
             PageSize = pageSize;
@@ -23,7 +24,7 @@ namespace Ads.Application.Common
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             AddRange(items);
         }
-        public async static Task<PagedList<T>> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public static async Task<PagedList<T>> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var count = await source.CountAsync(cancellationToken);
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);

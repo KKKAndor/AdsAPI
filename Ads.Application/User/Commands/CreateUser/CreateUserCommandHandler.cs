@@ -19,7 +19,7 @@ namespace Ads.Application.User.Commands.CreateUser
             {
                 Id = Guid.NewGuid(),
                 IsAdmin = request.IsAdmin,
-                Name = request.Name
+                UserName = request.UserName
             };
 
             await _dbContext.AppUsers.AddAsync(entity, cancellationToken);

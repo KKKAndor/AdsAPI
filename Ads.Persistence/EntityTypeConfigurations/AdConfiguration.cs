@@ -11,8 +11,14 @@ namespace Ads.Persistence.EntityTypeConfigurations
             builder
                 .HasKey(ad => ad.Id);
             builder
-                .HasIndex(ad => new { ad.Id, ad.UserId, ad.Number})
+                .HasIndex(ad => ad.Id)
                 .IsUnique();
+            builder
+                .HasIndex(ad => ad.CreationDate);
+            builder
+                .HasIndex(ad => ad.Number);
+            builder
+                .HasIndex(ad => ad.Rating);
             builder
                 .Property(ad => ad.UserId)
                 .IsRequired();

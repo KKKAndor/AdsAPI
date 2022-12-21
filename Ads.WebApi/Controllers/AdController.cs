@@ -5,6 +5,7 @@ using Ads.Application.Ads.Queries.GetAdDetails;
 using Ads.Application.Ads.Queries.GetAdList;
 using Ads.Application.Common;
 using Ads.Application.Common.Models;
+using Ads.Application.Common.Responces;
 using Ads.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -27,15 +28,13 @@ namespace Ads.WebApi.Controllers
         /// <remarks>
         /// Sample request:
         /// GET /Ad/GetAllAds?b8da677c-11b5-4895-b523-149233e10568
-        ///                   &MinNumber=1
-        ///                   &MaxNumber=16
-        ///                   &ContainDescription=Some
+        ///                   &Contain=Some
         ///                   &MinRating=1
         ///                   &MaxRating=77
         ///                   &MinCreationDate=2022-12-18T20:04:00
         ///                   &MaxCreationDate=2022-12-18T20:04:00
         ///                   &PageNumber=1
-        ///                   &PageSize=5&OrderBy=%22number%22
+        ///                   &PageSize=5&OrderBy=Number - desc
         /// </remarks>
         /// <returns>Returns AdListVm</returns>
         /// <param name="UserId">UserID (Guid)</param>
@@ -45,8 +44,6 @@ namespace Ads.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<AdListVm>> GetAllAds(Guid UserId, [FromQuery] AdsParameters AdsParameters)
         {
-            if (AdsParameters == null)
-                AdsParameters = new AdsParameters();
             var query = new GetAdListQuery 
             {
                 UserId = UserId,

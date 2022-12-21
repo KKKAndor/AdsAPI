@@ -1,4 +1,6 @@
 ﻿using Ads.Application.Common;
+using Ads.Application.Common.Exceptions;
+using Ads.Application.Common.Responces;
 using Ads.Application.Interfaces;
 using Ads.Domain;
 using MediatR;
@@ -19,8 +21,15 @@ namespace Ads.Application.Ads.Commands.CreateAd
         {            
             var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-            if (_dbContext.Ads.Where(ad => ad.UserId == request.UserId).Count() + 1 > 10 && !user.IsAdmin)
-                throw new Exception("User cannot create more than 10 Ads");
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(AppUser), request.UserId);
+            }
+            
+            var count = await _dbContext.Ads.Where(ad => ad.UserId == request.UserId).CountAsync(cancellationToken) + 1;
+            
+            if (count > 10 && !user.IsAdmin)
+                return new ResponceDto { IsSuccessful = false, Message = "You cannot create more than 10 Ads" };
 
             var entity = new Ad
             {

@@ -8,6 +8,6 @@ namespace Ads.Application.Ads.Queries.GetAdList
     {
         public Guid UserId { get; set; } = Guid.Empty;
 
-        public AdsParameters? AdsParameters { get; set; }
+        public AdsParameters? AdsParameters { get; set; } = new();
     }
 }

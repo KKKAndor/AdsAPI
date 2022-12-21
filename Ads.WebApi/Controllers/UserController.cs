@@ -23,10 +23,10 @@ namespace Ads.WebApi.Controllers
         /// <remarks>
         /// Sample request:
         /// GET /User/GetAllUsers
-        ///             ?ContainName=Some
+        ///             ?Contain=Some
         ///             &PageNumber=1
         ///             &PageSize=5
-        ///             &OrderBy=name
+        ///             &OrderBy=Name - desc
         /// </remarks>
         /// <returns>Returns AdListVm</returns>
         /// <param name="userParameters">User parameters for sorting, searching, filtering</param>

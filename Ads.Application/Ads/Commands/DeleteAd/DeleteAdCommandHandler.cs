@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ads.Application.Common.Responces;
 
 namespace Ads.Application.Ads.Commands.DeleteAd
 {
@@ -23,15 +24,18 @@ namespace Ads.Application.Ads.Commands.DeleteAd
         public async Task<ResponceDto> Handle(DeleteAdCommand request,
             CancellationToken cancellationToken)
         {
-            var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+            var user = await 
+                _dbContext.AppUsers.FirstOrDefaultAsync(
+                    u => u.Id == request.UserId, cancellationToken);
 
             if (user == null)
             {
                 throw new NotFoundException(nameof(AppUser), request.UserId);
             }
 
-            var entity = await _dbContext.Ads
-                .FindAsync(new object[] { request.Id }, cancellationToken);
+            var entity = await 
+                _dbContext.Ads.FindAsync(
+                    new object[] { request.Id }, cancellationToken);
 
             if (entity == null)
             {
@@ -39,7 +43,7 @@ namespace Ads.Application.Ads.Commands.DeleteAd
             }
 
             if (!user.IsAdmin && entity.UserId != request.UserId)
-                throw new Exception("You cannot delete this add");
+                return new ResponceDto { IsSuccessful = false, Message = "You cannot delete this Ad" };
 
             _dbContext.Ads.Remove(entity);
 

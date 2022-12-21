@@ -40,11 +40,6 @@ namespace Ads.Application.User.Queries.GetUserList
                 request.userParameters.PageSize,
                 cancellationToken
             );
-            
-            if (pagedList.TotalCount == 0)
-            {
-                throw new NotFoundException(nameof(UserDataListVm), request);
-            }
 
             return new UserDataListVm { UserList = pagedList };
         }
@@ -54,18 +49,17 @@ namespace Ads.Application.User.Queries.GetUserList
             if(string.IsNullOrWhiteSpace(contain))
                 return;
             query = query.Where(x => 
-                x.Name.ToLower().Contains(contain.ToLower()));
+                x.UserName.ToLower().Contains(contain.ToLower()));
         }
 
         private void ApplySort(ref IQueryable<AppUser> query, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
             {
-                query = query.OrderBy(x => x.Name);
+                query = query.OrderBy(x => x.UserName);
             }
             var orderParams = orderByQueryString.Trim().Split(',');
-            var propertyInfos = typeof(Ad).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var orderQueryBuilder = new StringBuilder();
+            var propertyInfos = typeof(AppUser).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var param in orderParams)
             {
                 if (string.IsNullOrWhiteSpace(param))
@@ -80,16 +74,16 @@ namespace Ads.Application.User.Queries.GetUserList
                     case "descending":
                         switch (objectProperty.Name.ToString())
                         {
-                            case "Name":
-                                query = query.OrderBy(x => x.Name).Reverse();
+                            case "UserName":
+                                query = query.OrderBy(x => x.UserName).Reverse();
                                 break;
                         }
                         break;
                     case "ascending":
                         switch (objectProperty.Name.ToString())
                         {
-                            case "Name":
-                                query = query.OrderBy(x => x.Name);
+                            case "UserName":
+                                query = query.OrderBy(x => x.UserName);
                                 break;
                         }
                         break;

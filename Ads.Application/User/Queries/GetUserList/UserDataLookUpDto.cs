@@ -8,7 +8,7 @@ namespace Ads.Application.User.Queries.GetUserList
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         public bool IsAdmin { get; set; }
 
@@ -17,8 +17,8 @@ namespace Ads.Application.User.Queries.GetUserList
             profile.CreateMap<AppUser, UserDataLookUpDto>()
                 .ForMember(Vm => Vm.Id,
                     opt => opt.MapFrom(ap => ap.Id))
-                .ForMember(Vm => Vm.Name,
-                    opt => opt.MapFrom(ap => ap.Name))
+                .ForMember(Vm => Vm.UserName,
+                    opt => opt.MapFrom(ap => ap.UserName))
                 .ForMember(Vm => Vm.IsAdmin,
                     opt => opt.MapFrom(ap => ap.IsAdmin));
         }

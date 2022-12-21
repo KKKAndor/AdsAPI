@@ -15,7 +15,8 @@ namespace Ads.Persistence.EntityTypeConfigurations
         {
             builder.HasKey(ad => ad.Id);
             builder.HasIndex(ad => ad.Id).IsUnique();
-            builder.Property(u => u.Name).HasMaxLength(50);
+            builder.HasIndex(ad => ad.UserName);
+            builder.Property(u => u.UserName).HasMaxLength(50);
         }
     }
 }

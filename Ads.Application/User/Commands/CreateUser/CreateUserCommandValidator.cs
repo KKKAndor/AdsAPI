@@ -13,7 +13,7 @@ namespace Ads.Application.User.Commands.CreateUser
         public CreateUserCommandValidator()
         {
             RuleFor(command =>
-                command.Name)
+                command.UserName)
                 .NotEmpty()
                 .WithMessage("Name shouldn't be empty")
                 .MaximumLength(50)

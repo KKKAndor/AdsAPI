@@ -23,7 +23,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
         {
             profile.CreateMap<Ad, AdLookUpDto>()
                 .ForMember(Vm => Vm.UserName,
-                    opt => opt.MapFrom(ap => ap.User.Name))
+                    opt => opt.MapFrom(ap => ap.User.UserName))
                 .ForMember(Vm => Vm.Id,
                     opt => opt.MapFrom(ap => ap.Id))
                 .ForMember(Vm => Vm.Number,

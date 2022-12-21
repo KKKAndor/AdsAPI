@@ -58,11 +58,6 @@ namespace Ads.Application.Ads.Queries.GetAdList
                 request.AdsParameters.PageSize,
                 cancellationToken
             );
-            
-            if (pagedList.TotalCount == 0)
-            {
-                throw new NotFoundException(nameof(AdListVm), request);
-            }
 
             return new AdListVm { Ads = pagedList };
         }
@@ -74,7 +69,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
             query = query.Where(x => 
                 x.Description.ToLower().Contains(contain.ToLower()) ||
                 x.Number.ToString().Contains(contain.ToLower()) ||
-                x.User.Name.Contains(contain.ToLower()));
+                x.User.UserName.Contains(contain.ToLower()));
         }
 
         private void ApplyFilter(ref IQueryable<Ad> query, AdsParameters requestAdsParameters)
@@ -98,7 +93,6 @@ namespace Ads.Application.Ads.Queries.GetAdList
             }
             var orderParams = orderByQueryString.Trim().Split(',');
             var propertyInfos = typeof(Ad).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var orderQueryBuilder = new StringBuilder();
             foreach (var param in orderParams)
             {
                 if (string.IsNullOrWhiteSpace(param))
@@ -113,9 +107,6 @@ namespace Ads.Application.Ads.Queries.GetAdList
                     case "descending":
                         switch (objectProperty.Name.ToString())
                         {
-                            case "UserName":
-                                query = query.OrderBy(x => x.User.Name).Reverse();
-                                break;
                             case "CreationDate":
                                 query = query.OrderBy(x => x.CreationDate).Reverse();
                                 break;
@@ -136,9 +127,6 @@ namespace Ads.Application.Ads.Queries.GetAdList
                     case "ascending":
                         switch (objectProperty.Name.ToString())
                         {
-                            case "UserName":
-                                query = query.OrderBy(x => x.User.Name);
-                                break;
                             case "CreationDate":
                                 query = query.OrderBy(x => x.CreationDate);
                                 break;

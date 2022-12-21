@@ -32,15 +32,17 @@ namespace Ads.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Number")
+                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<int>("Rating")
@@ -51,8 +53,14 @@ namespace Ads.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreationDate");
+
                     b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("Number");
+
+                    b.HasIndex("Rating");
 
                     b.HasIndex("UserId");
 
@@ -68,7 +76,7 @@ namespace Ads.Persistence.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -77,6 +85,8 @@ namespace Ads.Persistence.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("UserName");
 
                     b.ToTable("AppUsers");
                 });

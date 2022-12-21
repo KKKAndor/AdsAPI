@@ -17,7 +17,7 @@ namespace Ads.WebApi.Models
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CreateUserDto, CreateUserCommand>()
-                .ForMember(Command => Command.Name,
+                .ForMember(Command => Command.UserName,
                     opt => opt.MapFrom(DTO => DTO.Name))
                 .ForMember(Command => Command.IsAdmin,
                     opt => opt.MapFrom(DTO => DTO.IsAdmin));
