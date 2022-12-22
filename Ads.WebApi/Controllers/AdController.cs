@@ -109,12 +109,16 @@ namespace Ads.WebApi.Controllers
         /// <param name="createAdDto">createAdDto object</param>
         /// <returns>Returns id (Guid)</returns>
         /// <response code="201">Success</response>
+        /// <response code="400">Bad request</response>
         [HttpPost("CreateAd")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<ResponceDto>> CreateAd([FromBody] CreateAdDto createAdDto)
         {
             var command = _mapper.Map<CreateAdCommand>(createAdDto);
             var responce = await Mediator.Send(command);
+            
+            if (!responce.IsSuccessful)
+                return BadRequest(responce.Message);
             return StatusCode(201, responce);
         }
 
@@ -137,12 +141,16 @@ namespace Ads.WebApi.Controllers
         /// <param name="updateAdDto">UpdateAdDto object</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="200">Success</response>
+        /// <response code="400">Bad request</response>
         [HttpPut("UpdateAd")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ResponceDto>> UpdateAd([FromBody] UpdateAdDto updateAdDto)
         {
             var command = _mapper.Map<UpdateAdCommand>(updateAdDto);
             var responce = await Mediator.Send(command);
+            
+            if (!responce.IsSuccessful)
+                return BadRequest(responce.Message);
             return Ok(responce);
         }
 
@@ -158,6 +166,7 @@ namespace Ads.WebApi.Controllers
         /// <param name="UserId">UserId (Guid)</param>
         /// <returns>Returns NoContent</returns>
         /// <response code="200">Success</response>
+        /// <response code="400">Bad request</response>
         [HttpDelete("DeleteAd/{Id}&{UserId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ResponceDto>> DeleteAd(Guid Id, Guid UserId)
@@ -168,6 +177,8 @@ namespace Ads.WebApi.Controllers
                 Id = Id
             };
             var responce = await Mediator.Send(command);
+            if (!responce.IsSuccessful)
+                return BadRequest(responce.Message);
             return Ok(responce);
         }
     }
