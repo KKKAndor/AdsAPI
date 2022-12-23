@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Application.Common
@@ -16,7 +18,7 @@ namespace Ads.Application.Common
         public bool HasPrevious => CurrentPage > 1;
         public bool HasNext => CurrentPage < TotalPages;
 
-        private PagedList(List<T> items, int count, int pageNumber, int pageSize)
+        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
             PageSize = pageSize;
@@ -29,6 +31,23 @@ namespace Ads.Application.Common
             var count = await source.CountAsync(cancellationToken);
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
             return new PagedList<T>(items, count, pageNumber, pageSize);
+        }
+        
+        public static async Task<PagedList<TOut>> ToMappedPagedList<TQuery, TOut>(
+            IQueryable<TQuery> source, 
+            int pageNumber, 
+            int pageSize, 
+            CancellationToken cancellationToken,
+            IConfigurationProvider provider)
+        {
+            var count = await source.CountAsync(cancellationToken);
+            var items = await source
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ProjectTo<TOut>(provider)
+                .ToListAsync(cancellationToken);
+            
+            return new PagedList<TOut>(items, count, pageNumber, pageSize);
         }
     }
 }

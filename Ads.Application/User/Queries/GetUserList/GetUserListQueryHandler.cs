@@ -32,14 +32,13 @@ namespace Ads.Application.User.Queries.GetUserList
             
             ApplySort(ref query, request.userParameters.OrderBy);
 
-            var list = query.ProjectTo<UserDataLookUpDto>(_mapper.ConfigurationProvider);
-            
-            var pagedList = await PagedList<UserDataLookUpDto>.ToPagedList(
-                list,
-                request.userParameters.PageNumber,
-                request.userParameters.PageSize,
-                cancellationToken
-            );
+            var pagedList = await PagedList<UserDataLookUpDto>
+                .ToMappedPagedList<AppUser, UserDataLookUpDto>(
+                    query,
+                    request.userParameters.PageNumber,
+                    request.userParameters.PageSize,
+                    cancellationToken,
+                    _mapper.ConfigurationProvider);
 
             return new UserDataListVm { UserList = pagedList };
         }
@@ -57,6 +56,7 @@ namespace Ads.Application.User.Queries.GetUserList
             if (string.IsNullOrWhiteSpace(orderByQueryString))
             {
                 query = query.OrderBy(x => x.UserName);
+                return;
             }
             var orderParams = orderByQueryString.Trim().Split(',');
             var propertyInfos = typeof(AppUser).GetProperties(BindingFlags.Public | BindingFlags.Instance);

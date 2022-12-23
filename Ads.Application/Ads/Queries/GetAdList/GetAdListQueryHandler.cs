@@ -50,14 +50,13 @@ namespace Ads.Application.Ads.Queries.GetAdList
             
             ApplySort(ref query, request.AdsParameters.OrderBy);
 
-            var list = query.ProjectTo<AdLookUpDto>(_mapper.ConfigurationProvider);
-            
-            var pagedList = await PagedList<AdLookUpDto>.ToPagedList(
-                list,
+            var pagedList = await PagedList<AdLookUpDto>
+                .ToMappedPagedList<Ad, AdLookUpDto>(
+                query,
                 request.AdsParameters.PageNumber,
                 request.AdsParameters.PageSize,
-                cancellationToken
-            );
+                cancellationToken,
+                _mapper.ConfigurationProvider);
 
             return new AdListVm { Ads = pagedList };
         }
@@ -90,6 +89,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
             if (string.IsNullOrWhiteSpace(orderByQueryString))
             {
                 query = query.OrderBy(x => x.ExpirationDate);
+                return;
             }
             var orderParams = orderByQueryString.Trim().Split(',');
             var propertyInfos = typeof(Ad).GetProperties(BindingFlags.Public | BindingFlags.Instance);
