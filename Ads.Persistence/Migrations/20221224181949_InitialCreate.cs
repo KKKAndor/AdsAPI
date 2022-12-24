@@ -16,7 +16,7 @@ namespace Ads.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -30,9 +30,9 @@ namespace Ads.Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -49,10 +49,25 @@ namespace Ads.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ads_CreationDate",
+                table: "Ads",
+                column: "CreationDate");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ads_Id",
                 table: "Ads",
                 column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ads_Number",
+                table: "Ads",
+                column: "Number");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ads_Rating",
+                table: "Ads",
+                column: "Rating");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ads_UserId",
@@ -64,6 +79,11 @@ namespace Ads.Persistence.Migrations
                 table: "AppUsers",
                 column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUsers_UserName",
+                table: "AppUsers",
+                column: "UserName");
         }
 
         /// <inheritdoc />

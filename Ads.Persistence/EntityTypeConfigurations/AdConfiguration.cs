@@ -10,6 +10,7 @@ namespace Ads.Persistence.EntityTypeConfigurations
         {
             builder
                 .HasKey(ad => ad.Id);
+            builder.HasQueryFilter(x=>x.ExpirationDate.Date > DateTime.Now.Date);
             builder
                 .HasIndex(ad => ad.Id)
                 .IsUnique();

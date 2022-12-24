@@ -28,20 +28,13 @@ namespace Ads.Application.Ads.Queries.GetAdList
             IQueryable<Ad> query;
 
             var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+            query = _dbContext.Ads.Include(x=>x.User);
             if (user != null)
             {
-                if (!user.IsAdmin)
+                if (user.IsAdmin)
                 {
-                    query = _dbContext.Ads.Include(x=>x.User).Where(ad => ad.ExpirationDate.Date > DateTime.Now.Date);
+                    query = query.IgnoreQueryFilters();
                 }
-                else
-                {
-                    query = _dbContext.Ads.Include(x=>x.User);
-                }
-            }
-            else
-            {
-                query = _dbContext.Ads.Include(x=>x.User).Where(ad => ad.ExpirationDate.Date > DateTime.Now.Date);
             }
 
             ApplyFilter(ref query, request.AdsParameters);
