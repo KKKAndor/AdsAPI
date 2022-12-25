@@ -1,86 +1,102 @@
 {
-	"id": "1e8f1ac1-2880-46cb-8fd0-2503da1a5581",
+	"id": "6ac30c74-0d36-45b8-9672-9bc349b346b5",
 	"name": "AdsWebApi",
-	"timestamp": "2022-12-20T18:00:47.204Z",
-	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"timestamp": "2022-12-25T11:12:04.426Z",
+	"collection_id": "21089376-7b6a0fad-e47f-4371-b2de-9f4643dc5421",
 	"folder_id": 0,
-	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
+	"environment_id": "21089376-03973540-f315-4e37-9d09-32ea1edd6ee2",
 	"totalPass": 11,
-	"totalFail": 0,
+	"totalFail": 11,
 	"results": [
 		{
-			"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+			"id": "06b62dd7-dc34-4b19-8e15-9c1679af5ae6",
 			"name": "CreateAd",
-			"time": 107,
+			"time": 10,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
 			},
 			"tests": {
-				"Verify that status code is 201": true
+				"Verify that status code is 201": true,
+				"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 			},
 			"testPassFailCounts": {
 				"Verify that status code is 201": {
 					"pass": 11,
 					"fail": 0
+				},
+				"Verify that status code is 400 for Normal User tries create more than 10 Ads": {
+					"pass": 0,
+					"fail": 11
 				}
 			},
 			"times": [
-				117,
-				120,
-				107,
-				89,
-				90,
-				202,
-				142,
-				144,
-				99,
-				146,
-				107
+				13,
+				7,
+				7,
+				129,
+				23,
+				20,
+				10,
+				7,
+				6,
+				7,
+				10
 			],
 			"allTests": [
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				}
 			]
 		}
 	],
 	"count": 11,
-	"totalTime": 1363,
+	"totalTime": 239,
 	"collection": {
 		"requests": [
 			{
-				"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+				"id": "06b62dd7-dc34-4b19-8e15-9c1679af5ae6",
 				"method": "POST"
 			}
 		]

@@ -5,7 +5,7 @@ using Ads.Application.Common.Responces;
 
 namespace Ads.Application.Ads.Commands.DeleteAd
 {
-    public class DeleteAdCommand : IRequest<ResponceDto>
+    public class DeleteAdCommand : IRequest
     {
         [Required]
         public Guid Id { get; set; }

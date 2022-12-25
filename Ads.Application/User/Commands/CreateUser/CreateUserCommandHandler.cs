@@ -1,5 +1,5 @@
 ﻿using Ads.Application.Interfaces;
-using Ads.Domain;
+using Ads.Domain.Entities;
 using MediatR;
 
 namespace Ads.Application.User.Commands.CreateUser

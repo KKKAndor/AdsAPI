@@ -39,7 +39,11 @@ namespace Ads.WebApi.Middleware
                 case NotFoundException:
                     code = HttpStatusCode.NotFound;
                     break;
-            }
+                case BadRequestException badRequestException:
+                    code = HttpStatusCode.BadRequest;
+                    result = JsonSerializer.Serialize(badRequestException.Message);
+                    break;
+    }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 

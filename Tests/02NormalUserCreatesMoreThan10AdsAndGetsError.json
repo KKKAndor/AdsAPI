@@ -1,227 +1,103 @@
 {
-	"id": "269755d4-14ec-4437-9abe-b90127e8935d",
+	"id": "18156790-3e97-4ae3-a234-f976443f7b18",
 	"name": "AdsWebApi",
-	"timestamp": "2022-12-20T17:47:18.793Z",
-	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"timestamp": "2022-12-25T11:02:04.123Z",
+	"collection_id": "21089376-7b6a0fad-e47f-4371-b2de-9f4643dc5421",
 	"folder_id": 0,
-	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
-	"totalPass": 32,
-	"totalFail": 1,
+	"environment_id": "21089376-03973540-f315-4e37-9d09-32ea1edd6ee2",
+	"totalPass": 11,
+	"totalFail": 11,
 	"results": [
 		{
-			"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+			"id": "06b62dd7-dc34-4b19-8e15-9c1679af5ae6",
 			"name": "CreateAd",
-			"time": 843,
+			"time": 7,
 			"responseCode": {
-				"code": 500,
-				"name": "Internal Server Error"
+				"code": 400,
+				"name": "Bad Request"
 			},
 			"tests": {
-				"Verify that status code is 201": false
+				"Verify that status code is 201": false,
+				"Verify that status code is 400 for Normal User tries create more than 10 Ads": true
 			},
 			"testPassFailCounts": {
 				"Verify that status code is 201": {
 					"pass": 10,
 					"fail": 1
+				},
+				"Verify that status code is 400 for Normal User tries create more than 10 Ads": {
+					"pass": 1,
+					"fail": 10
 				}
 			},
 			"times": [
-				792,
-				101,
-				112,
-				108,
-				120,
-				108,
-				151,
-				118,
-				104,
-				99,
-				843
+				14,
+				6,
+				7,
+				8,
+				69,
+				7,
+				20,
+				8,
+				7,
+				8,
+				7
 			],
 			"allTests": [
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": true
+					"Verify that status code is 201": true,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": false
 				},
 				{
-					"Verify that status code is 201": false
-				}
-			]
-		},
-		{
-			"id": "a38352f7-aeb4-42a0-9349-e23b7b4f3458",
-			"name": "GetAllAds with parameters",
-			"time": 95,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Verify that status code is 200": true
-			},
-			"testPassFailCounts": {
-				"Verify that status code is 200": {
-					"pass": 11,
-					"fail": 0
-				}
-			},
-			"times": [
-				324,
-				98,
-				337,
-				111,
-				119,
-				115,
-				109,
-				109,
-				99,
-				87,
-				95
-			],
-			"allTests": [
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				}
-			]
-		},
-		{
-			"id": "bb3f5859-dc01-4b80-925c-15fb4bddaca8",
-			"name": "GetAllAds without parameters",
-			"time": 95,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Verify that status code is 200": true
-			},
-			"testPassFailCounts": {
-				"Verify that status code is 200": {
-					"pass": 11,
-					"fail": 0
-				}
-			},
-			"times": [
-				117,
-				132,
-				97,
-				122,
-				144,
-				108,
-				94,
-				128,
-				96,
-				88,
-				95
-			],
-			"allTests": [
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
-				},
-				{
-					"Verify that status code is 200": true
+					"Verify that status code is 201": false,
+					"Verify that status code is 400 for Normal User tries create more than 10 Ads": true
 				}
 			]
 		}
 	],
 	"count": 11,
-	"totalTime": 5480,
+	"totalTime": 161,
 	"collection": {
 		"requests": [
 			{
-				"id": "50a3c0fc-8353-4279-a767-a34e7bab7599",
+				"id": "06b62dd7-dc34-4b19-8e15-9c1679af5ae6",
 				"method": "POST"
-			},
-			{
-				"id": "a38352f7-aeb4-42a0-9349-e23b7b4f3458",
-				"method": "GET"
-			},
-			{
-				"id": "bb3f5859-dc01-4b80-925c-15fb4bddaca8",
-				"method": "GET"
 			}
 		]
 	}

@@ -1,5 +1,5 @@
 ﻿using Ads.Application.Common.Mappings;
-using Ads.Domain;
+using Ads.Domain.Entities;
 using AutoMapper;
 
 namespace Ads.Application.User.Queries.GetUserList

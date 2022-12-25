@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Extensions\**" />
+    <EmbeddedResource Remove="Common\Extensions\**" />
+    <None Remove="Common\Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
@@ -18,10 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ads.Domain\Ads.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\Extensions" />
   </ItemGroup>
 
 </Project>

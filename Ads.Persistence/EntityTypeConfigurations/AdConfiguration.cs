@@ -1,8 +1,8 @@
-﻿using Ads.Domain;
+﻿using Ads.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Ads.Persistence.EntityTypeConfigurations
+namespace Ads.Infrastructure.EntityTypeConfigurations
 {
     public class AdConfiguration : IEntityTypeConfiguration<Ad>
     {

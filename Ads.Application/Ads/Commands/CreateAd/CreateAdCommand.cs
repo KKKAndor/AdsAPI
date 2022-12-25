@@ -5,7 +5,7 @@ using Ads.Application.Common.Responces;
 
 namespace Ads.Application.Ads.Commands.CreateAd
 {
-    public class CreateAdCommand : IRequest<ResponceDto>
+    public class CreateAdCommand : IRequest<Guid>
     {
         [Required]
         public int Number { get; set; }

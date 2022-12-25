@@ -1,7 +1,6 @@
 ﻿using Ads.Application.Common;
 using Ads.Application.Common.Exceptions;
 using Ads.Application.Interfaces;
-using Ads.Domain;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -9,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text;
 using Ads.Application.Common.Models;
+using Ads.Domain.Entities;
 
 namespace Ads.Application.Ads.Queries.GetAdList
 {
@@ -27,7 +27,9 @@ namespace Ads.Application.Ads.Queries.GetAdList
         {
             IQueryable<Ad> query;
 
-            var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+            var user = await _dbContext.AppUsers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
             query = _dbContext.Ads.Include(x=>x.User);
             if (user != null)
             {

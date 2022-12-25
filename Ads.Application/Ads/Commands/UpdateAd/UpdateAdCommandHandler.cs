@@ -2,21 +2,21 @@
 using Ads.Application.Common.Exceptions;
 using Ads.Application.Common.Responces;
 using Ads.Application.Interfaces;
-using Ads.Domain;
+using Ads.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Application.Ads.Commands.UpdateAd
 {
     public class UpdateAdCommandHandler
-        : IRequestHandler<UpdateAdCommand, ResponceDto>
+        : IRequestHandler<UpdateAdCommand>
     {
         private readonly IAdsDbContext _dbContext;
 
         public UpdateAdCommandHandler(IAdsDbContext dbContext) =>
             _dbContext = dbContext;
 
-        public async Task<ResponceDto> Handle(UpdateAdCommand request,
+        public async Task<Unit> Handle(UpdateAdCommand request,
             CancellationToken cancellationToken)
         {
             var user = await 
@@ -38,7 +38,7 @@ namespace Ads.Application.Ads.Commands.UpdateAd
             }
 
             if (!user.IsAdmin && entity.UserId != request.UserId)
-                return new ResponceDto { IsSuccessful = false, Message = "You cannot update this add" };
+                throw new BadRequestException("You cannot update this add");
 
             entity.ExpirationDate = request.ExpirationDate;
             entity.Description = request.Description;
@@ -48,7 +48,7 @@ namespace Ads.Application.Ads.Commands.UpdateAd
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new ResponceDto { IsSuccessful = true, Message = "You updated Ad" };
+            return Unit.Value;
         }
     }
 }

@@ -1,18 +1,18 @@
 {
-	"id": "4ba55495-c701-4c34-a6f1-f0ebb6dc0b5c",
+	"id": "5c4b29b0-d742-4f8d-91e3-45f1645c2b36",
 	"name": "AdsWebApi",
-	"timestamp": "2022-12-20T17:54:59.136Z",
-	"collection_id": "21089376-1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+	"timestamp": "2022-12-25T11:09:36.142Z",
+	"collection_id": "21089376-7b6a0fad-e47f-4371-b2de-9f4643dc5421",
 	"folder_id": 0,
-	"environment_id": "21089376-ac2d8207-0b8a-47a2-989f-abd30f28d57a",
-	"totalPass": 1,
+	"environment_id": "21089376-03973540-f315-4e37-9d09-32ea1edd6ee2",
+	"totalPass": 3,
 	"totalFail": 2,
 	"results": [
 		{
-			"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+			"id": "9c130b50-5f0c-49bb-a3eb-bc3b527f9a84",
 			"name": "GetAd",
-			"url": "https://localhost:7191/api/Ad/GetAd/9435565c-41c6-4ef0-8a3e-1927ea987dcd",
-			"time": 6342,
+			"url": "https://localhost:7191/api/Ad/GetAd/14acae59-2555-4e19-9cc0-66158f23addd",
+			"time": 30,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -27,7 +27,7 @@
 				}
 			},
 			"times": [
-				6342
+				30
 			],
 			"allTests": [
 				{
@@ -36,74 +36,86 @@
 			]
 		},
 		{
-			"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+			"id": "723efafa-111b-4e4b-9d21-70ca8c27bdf1",
 			"name": "UpdateAd",
 			"url": "https://localhost:7191/api/Ad/UpdateAd",
-			"time": 1785,
+			"time": 8,
 			"responseCode": {
-				"code": 404,
-				"name": "Not Found"
+				"code": 400,
+				"name": "Bad Request"
 			},
 			"tests": {
-				"Verify that status code is 200": false
+				"Verify that status code is 204 for Ad owner or Admin": false,
+				"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": true
 			},
 			"testPassFailCounts": {
-				"Verify that status code is 200": {
+				"Verify that status code is 204 for Ad owner or Admin": {
 					"pass": 0,
 					"fail": 1
+				},
+				"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": {
+					"pass": 1,
+					"fail": 0
 				}
 			},
 			"times": [
-				1785
+				8
 			],
 			"allTests": [
 				{
-					"Verify that status code is 200": false
+					"Verify that status code is 204 for Ad owner or Admin": false,
+					"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": true
 				}
 			]
 		},
 		{
-			"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+			"id": "fc851029-aeed-48ee-a6b0-2a46d835e281",
 			"name": "DeleteAd",
-			"url": "https://localhost:7191/api/Ad/DeleteAd/9435565c-41c6-4ef0-8a3e-1927ea987dcd&87aa2490-103b-4f45-8158-55bc9f730cf8",
-			"time": 1089,
+			"url": "https://localhost:7191/api/Ad/DeleteAd/14acae59-2555-4e19-9cc0-66158f23addd&a86caa78-46be-42a6-9a22-55fecacfad8c",
+			"time": 13,
 			"responseCode": {
-				"code": 500,
-				"name": "Internal Server Error"
+				"code": 400,
+				"name": "Bad Request"
 			},
 			"tests": {
-				"Verify that status code is 200": false
+				"Verify that status code is 204 for Ad owner or Admin": false,
+				"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": true
 			},
 			"testPassFailCounts": {
-				"Verify that status code is 200": {
+				"Verify that status code is 204 for Ad owner or Admin": {
 					"pass": 0,
 					"fail": 1
+				},
+				"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": {
+					"pass": 1,
+					"fail": 0
 				}
 			},
 			"times": [
-				1089
+				13
 			],
 			"allTests": [
 				{
-					"Verify that status code is 200": false
+					"Verify that status code is 204 for Ad owner or Admin": false,
+					"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": true
 				}
 			]
 		}
 	],
 	"count": 1,
-	"totalTime": 9216,
+	"totalTime": 51,
 	"collection": {
 		"requests": [
 			{
-				"id": "00ce5da4-76d6-4931-a5df-1856cacf6d3c",
+				"id": "9c130b50-5f0c-49bb-a3eb-bc3b527f9a84",
 				"method": "GET"
 			},
 			{
-				"id": "ade6eede-535a-489f-a4c5-2cce32b3ca91",
+				"id": "723efafa-111b-4e4b-9d21-70ca8c27bdf1",
 				"method": "PUT"
 			},
 			{
-				"id": "08f9d2d9-d843-4d38-8958-69ad9ae2d635",
+				"id": "fc851029-aeed-48ee-a6b0-2a46d835e281",
 				"method": "DELETE"
 			}
 		]

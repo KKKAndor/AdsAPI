@@ -1,0 +1,173 @@
+{
+	"id": "8544da09-956b-4405-9be8-f23719fb843b",
+	"name": "AdsWebApi",
+	"timestamp": "2022-12-25T11:01:36.636Z",
+	"collection_id": "21089376-7b6a0fad-e47f-4371-b2de-9f4643dc5421",
+	"folder_id": 0,
+	"environment_id": "21089376-03973540-f315-4e37-9d09-32ea1edd6ee2",
+	"totalPass": 5,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "d2d83953-88a0-4ca3-9da5-327c871351c7",
+			"name": "CreateUser",
+			"url": "https://localhost:7191/api/User/CreateUser",
+			"time": 17,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "02d8855d-7670-4370-8383-f4575f79cd1f",
+			"name": "GetAllAds without parameters",
+			"url": "https://localhost:7191/api/Ad/GetAllAds",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "5e5ad46d-7c69-4226-8505-3028237eacf8",
+			"name": "GetAllAds with parameters",
+			"url": "https://localhost:7191/api/Ad/GetAllAds?UserId=a86caa78-46be-42a6-9a22-55fecacfad8c&MinRating=1&MaxRating=90&MinCreationDate=2022-12-19T10:29:00&PageNumber=1&MaxCreationDate=2022-12-19T13:50:00&OrderBy=Number%20-%20desc&PageSize=30&Contain=Adminus",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "c986e76a-6eb9-44a4-98a7-bc889598804f",
+			"name": "GetAllUsers without parameters",
+			"url": "https://localhost:7191/api/User/GetAllUsers",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "738ff917-8f21-414f-96aa-7724160e5b6b",
+			"name": "GetAllUsers with parameters",
+			"url": "https://localhost:7191/api/User/GetAllUsers/?Contain=Adminus&PageNumber=1&PageSize=30&OrderBy=UserName%20-%20desc",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Verify that status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Verify that status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Verify that status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 73,
+	"collection": {
+		"requests": [
+			{
+				"id": "d2d83953-88a0-4ca3-9da5-327c871351c7",
+				"method": "POST"
+			},
+			{
+				"id": "02d8855d-7670-4370-8383-f4575f79cd1f",
+				"method": "GET"
+			},
+			{
+				"id": "5e5ad46d-7c69-4226-8505-3028237eacf8",
+				"method": "GET"
+			},
+			{
+				"id": "c986e76a-6eb9-44a4-98a7-bc889598804f",
+				"method": "GET"
+			},
+			{
+				"id": "738ff917-8f21-414f-96aa-7724160e5b6b",
+				"method": "GET"
+			}
+		]
+	}
+}

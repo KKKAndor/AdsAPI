@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Ads.Application.Common.Models;
-using Ads.Domain;
+using Ads.Domain.Entities;
 
 namespace Ads.Application.User.Queries.GetUserList
 {
@@ -26,7 +26,8 @@ namespace Ads.Application.User.Queries.GetUserList
         public async Task<UserDataListVm> Handle(GetUserListQuery request,
             CancellationToken cancellationToken)
         {
-            IQueryable<AppUser> query = _dbContext.AppUsers;
+            IQueryable<AppUser> query = _dbContext.AppUsers
+                .AsNoTracking();
             
             ApplySearch(ref query, request.userParameters.Contain);
             

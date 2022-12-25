@@ -1,4 +1,4 @@
-﻿using Ads.Persistence;
+﻿using Ads.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.WebApi.Extensions

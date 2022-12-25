@@ -1,4 +1,4 @@
-﻿using Ads.Domain;
+﻿using Ads.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Application.Interfaces

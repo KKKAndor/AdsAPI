@@ -5,7 +5,7 @@ using Ads.Application.Common.Responces;
 
 namespace Ads.Application.Ads.Commands.UpdateAd
 {
-    public class UpdateAdCommand : IRequest<ResponceDto>
+    public class UpdateAdCommand : IRequest
     {
         [Required]
         public Guid Id { get; set; }

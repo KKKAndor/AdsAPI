@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1b6c9a71-739f-4281-a8ec-6cf6874990a3",
+		"_postman_id": "7b6a0fad-e47f-4371-b2de-9f4643dc5421",
 		"name": "AdsWebApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21089376"
@@ -61,7 +61,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseurl}}Ad/GetAllAds?UserId={{UserId}}&MinNumber=1&MaxNumber=9999999&MinRating=1&MaxRating=90&MinCreationDate=2022-12-18T20:00:00&PageNumber=1&MaxCreationDate=2022-12-22T21:10:00&OrderBy=reverseCreationDate&PageSize=5&ContainDescription=hard",
+									"raw": "{{baseurl}}Ad/GetAllAds?UserId={{UserId}}&MinRating=1&MaxRating=90&PageNumber=1&OrderBy=User - desc&PageSize=30",
 									"host": [
 										"{{baseurl}}Ad"
 									],
@@ -74,14 +74,6 @@
 											"value": "{{UserId}}"
 										},
 										{
-											"key": "MinNumber",
-											"value": "1"
-										},
-										{
-											"key": "MaxNumber",
-											"value": "9999999"
-										},
-										{
 											"key": "MinRating",
 											"value": "1"
 										},
@@ -91,7 +83,8 @@
 										},
 										{
 											"key": "MinCreationDate",
-											"value": "2022-12-18T20:00:00"
+											"value": "2022-12-19T10:29:00",
+											"disabled": true
 										},
 										{
 											"key": "PageNumber",
@@ -99,19 +92,21 @@
 										},
 										{
 											"key": "MaxCreationDate",
-											"value": "2022-12-22T21:10:00"
+											"value": "2022-12-19T13:50:00",
+											"disabled": true
 										},
 										{
 											"key": "OrderBy",
-											"value": "reverseCreationDate"
+											"value": "User - desc"
 										},
 										{
 											"key": "PageSize",
-											"value": "5"
+											"value": "30"
 										},
 										{
-											"key": "ContainDescription",
-											"value": "hard"
+											"key": "Contain",
+											"value": "User1",
+											"disabled": true
 										}
 									]
 								}
@@ -164,8 +159,7 @@
 											"pm.test(\"Verify that status code is 201\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"    var jsonData = JSON.parse(responseBody);\r",
-											"    if(jsonData.message !== \"User cannot create more than 10 Ads\")\r",
-											"        postman.setEnvironmentVariable(\"AdId\", jsonData.message);\r",
+											"    postman.setEnvironmentVariable(\"AdId\", jsonData);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -177,7 +171,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 100,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}\r\n",
+									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 90,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -208,8 +202,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Verify that status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);    \r",
+											"pm.test(\"Verify that status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);    \r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -221,7 +215,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 88,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
+									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 1,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -252,8 +246,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Verify that status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);    \r",
+											"pm.test(\"Verify that status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);    \r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -288,19 +282,6 @@
 					"item": [
 						{
 							"name": "GetAllUsers without parameters",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Verify that status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);    \r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -318,24 +299,11 @@
 						},
 						{
 							"name": "GetAllUsers with parameters",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Verify that status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);    \r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseurl}}User/GetAllUsers/?PageNumber=1&PageSize=30&OrderBy=name",
+									"raw": "{{baseurl}}User/GetAllUsers/?Contain=Adminus&PageNumber=1&PageSize=30&OrderBy=UserName - desc",
 									"host": [
 										"{{baseurl}}User"
 									],
@@ -345,9 +313,8 @@
 									],
 									"query": [
 										{
-											"key": "ContainName",
-											"value": "",
-											"disabled": true
+											"key": "Contain",
+											"value": "Adminus"
 										},
 										{
 											"key": "PageNumber",
@@ -359,7 +326,7 @@
 										},
 										{
 											"key": "OrderBy",
-											"value": "name"
+											"value": "UserName - desc"
 										}
 									]
 								}
@@ -378,7 +345,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Verify that status code is 201\", function () {\r",
+											"pm.test(\"Status test\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"    var jsonData = JSON.parse(responseBody);\r",
 											"    postman.setEnvironmentVariable(\"UserId\", jsonData);\r",
@@ -393,7 +360,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"User2\",\r\n    \"isAdmin\": false\r\n}",
+									"raw": "{\r\n    \"name\": \"Normal user\",\r\n    \"isAdmin\": false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -419,7 +386,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Verify that status code is 201\", function () {\r",
+											"pm.test(\"Status test\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"    var jsonData = JSON.parse(responseBody);\r",
 											"    postman.setEnvironmentVariable(\"UserId\", jsonData);\r",
@@ -434,7 +401,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Admin11\",\r\n    \"isAdmin\": true\r\n}",
+									"raw": "{\r\n    \"name\": \"Adminus\",\r\n    \"isAdmin\": true\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

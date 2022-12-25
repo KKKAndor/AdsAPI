@@ -1,7 +1,6 @@
 ﻿using Ads.Application.Common;
 using Ads.Application.Common.Exceptions;
 using Ads.Application.Interfaces;
-using Ads.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,18 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ads.Application.Common.Responces;
+using Ads.Domain.Entities;
 
 namespace Ads.Application.Ads.Commands.DeleteAd
 {
     public class DeleteAdCommandHandler
-        : IRequestHandler<DeleteAdCommand, ResponceDto>
+        : IRequestHandler<DeleteAdCommand>
     {
         private readonly IAdsDbContext _dbContext;
 
         public DeleteAdCommandHandler(IAdsDbContext dbContext) =>
             _dbContext = dbContext;
 
-        public async Task<ResponceDto> Handle(DeleteAdCommand request,
+        public async Task<Unit> Handle(DeleteAdCommand request,
             CancellationToken cancellationToken)
         {
             var user = await 
@@ -43,13 +43,13 @@ namespace Ads.Application.Ads.Commands.DeleteAd
             }
 
             if (!user.IsAdmin && entity.UserId != request.UserId)
-                return new ResponceDto { IsSuccessful = false, Message = "You cannot delete this Ad" };
+                throw new BadRequestException("You cannot delete this Ad");
 
             _dbContext.Ads.Remove(entity);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new ResponceDto { IsSuccessful = true, Message = "You deleted Ad" };
+            return Unit.Value;
         }
     }
 }

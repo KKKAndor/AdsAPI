@@ -1,37 +1,43 @@
 {
-	"id": "ca327390-9441-4236-b5f0-2cf9094a3e93",
+	"id": "cb39ce03-a728-4195-8175-09b2d9fa813c",
 	"name": "AdsWebApi",
-	"timestamp": "2022-12-25T11:12:47.943Z",
+	"timestamp": "2022-12-25T11:05:54.480Z",
 	"collection_id": "21089376-7b6a0fad-e47f-4371-b2de-9f4643dc5421",
 	"folder_id": 0,
 	"environment_id": "21089376-03973540-f315-4e37-9d09-32ea1edd6ee2",
 	"totalPass": 3,
-	"totalFail": 2,
+	"totalFail": 3,
 	"results": [
 		{
-			"id": "9c130b50-5f0c-49bb-a3eb-bc3b527f9a84",
-			"name": "GetAd",
-			"url": "https://localhost:7191/api/Ad/GetAd/976e772d-5be5-4289-a4a3-0d873530e580",
-			"time": 11,
+			"id": "e9c169f3-ee4d-42cb-8c16-7f25ac1aa5f8",
+			"name": "UpdateAd with validation errors",
+			"url": "https://localhost:7191/api/Ad/UpdateAd",
+			"time": 104,
 			"responseCode": {
-				"code": 200,
-				"name": "OK"
+				"code": 400,
+				"name": "Bad Request"
 			},
 			"tests": {
-				"Verify that status code is 200": true
+				"Verify that status code is 204 for Ad owner or Admin": false,
+				"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": true
 			},
 			"testPassFailCounts": {
-				"Verify that status code is 200": {
+				"Verify that status code is 204 for Ad owner or Admin": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": {
 					"pass": 1,
 					"fail": 0
 				}
 			},
 			"times": [
-				11
+				104
 			],
 			"allTests": [
 				{
-					"Verify that status code is 200": true
+					"Verify that status code is 204 for Ad owner or Admin": false,
+					"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors": true
 				}
 			]
 		},
@@ -39,7 +45,7 @@
 			"id": "723efafa-111b-4e4b-9d21-70ca8c27bdf1",
 			"name": "UpdateAd",
 			"url": "https://localhost:7191/api/Ad/UpdateAd",
-			"time": 8,
+			"time": 742,
 			"responseCode": {
 				"code": 204,
 				"name": "No Content"
@@ -59,7 +65,7 @@
 				}
 			},
 			"times": [
-				8
+				742
 			],
 			"allTests": [
 				{
@@ -71,8 +77,8 @@
 		{
 			"id": "fc851029-aeed-48ee-a6b0-2a46d835e281",
 			"name": "DeleteAd",
-			"url": "https://localhost:7191/api/Ad/DeleteAd/976e772d-5be5-4289-a4a3-0d873530e580&14c24e3f-6697-4143-937c-92281afc9477",
-			"time": 11,
+			"url": "https://localhost:7191/api/Ad/DeleteAd/22b0ec38-2c41-4a4c-aa88-648583b6528a&a86caa78-46be-42a6-9a22-55fecacfad8c",
+			"time": 52,
 			"responseCode": {
 				"code": 204,
 				"name": "No Content"
@@ -92,7 +98,7 @@
 				}
 			},
 			"times": [
-				11
+				52
 			],
 			"allTests": [
 				{
@@ -103,12 +109,12 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 30,
+	"totalTime": 898,
 	"collection": {
 		"requests": [
 			{
-				"id": "9c130b50-5f0c-49bb-a3eb-bc3b527f9a84",
-				"method": "GET"
+				"id": "e9c169f3-ee4d-42cb-8c16-7f25ac1aa5f8",
+				"method": "PUT"
 			},
 			{
 				"id": "723efafa-111b-4e4b-9d21-70ca8c27bdf1",

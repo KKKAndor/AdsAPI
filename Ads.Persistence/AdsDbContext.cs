@@ -1,9 +1,9 @@
 ﻿using Ads.Application.Interfaces;
-using Ads.Domain;
-using Ads.Persistence.EntityTypeConfigurations;
+using Ads.Domain.Entities;
+using Ads.Infrastructure.EntityTypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ads.Persistence
+namespace Ads.Infrastructure
 {
     public class AdsDbContext : DbContext, IAdsDbContext
     {

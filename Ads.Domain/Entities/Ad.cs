@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ads.Domain
+namespace Ads.Domain.Entities
 {
     public class Ad
     {
@@ -15,7 +15,7 @@ namespace Ads.Domain
         public int Number { get; set; }
 
         public string Description { get; set; }
-        
+
         public string ImagePath { get; set; }
 
         public int Rating { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Ads.Application.Ads.Queries.GetAdList;
 using Ads.Application.Common.Mappings;
-using Ads.Domain;
+using Ads.Domain.Entities;
 using AutoMapper;
 using System;
 using System.Collections.Generic;

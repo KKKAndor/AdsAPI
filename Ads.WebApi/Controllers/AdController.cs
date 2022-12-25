@@ -40,7 +40,7 @@ namespace Ads.WebApi.Controllers
         /// <param name="UserId">UserID (Guid)</param>
         /// <param name="AdsParameters">User parameters for sorting, searching, filtering</param>
         /// <response code="200">Success</response>
-        [HttpGet("GetAllAds/")]
+        [HttpGet("GetAllAds")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<AdListVm>> GetAllAds(Guid UserId, [FromQuery] AdsParameters AdsParameters)
         {
@@ -79,7 +79,7 @@ namespace Ads.WebApi.Controllers
         /// <response code="200">Success</response>
         [HttpGet("GetAd/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<AdDetailsVm>> GetAllAds(Guid Id)
+        public async Task<ActionResult<AdDetailsVm>> GetAd(Guid Id)
         {
             var query = new GetAdDetailsQuery
             {
@@ -112,14 +112,13 @@ namespace Ads.WebApi.Controllers
         /// <response code="400">Bad request</response>
         [HttpPost("CreateAd")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<ResponceDto>> CreateAd([FromBody] CreateAdDto createAdDto)
+        public async Task<ActionResult<Guid>> CreateAd([FromBody] CreateAdDto createAdDto)
         {
             var command = _mapper.Map<CreateAdCommand>(createAdDto);
-            var responce = await Mediator.Send(command);
+
+            var id = await Mediator.Send(command);
             
-            if (!responce.IsSuccessful)
-                return BadRequest(responce.Message);
-            return StatusCode(201, responce);
+            return StatusCode(201, id);
         }
 
         /// <summary>
@@ -140,18 +139,18 @@ namespace Ads.WebApi.Controllers
         /// </remarks> 
         /// <param name="updateAdDto">UpdateAdDto object</param>
         /// <returns>Returns NoContent</returns>
-        /// <response code="200">Success</response>
+        /// <response code="204">Success</response>
         /// <response code="400">Bad request</response>
         [HttpPut("UpdateAd")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ResponceDto>> UpdateAd([FromBody] UpdateAdDto updateAdDto)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateAd([FromBody] UpdateAdDto updateAdDto)
         {
             var command = _mapper.Map<UpdateAdCommand>(updateAdDto);
-            var responce = await Mediator.Send(command);
+
+            await Mediator.Send(command);
             
-            if (!responce.IsSuccessful)
-                return BadRequest(responce.Message);
-            return Ok(responce);
+            return NoContent();
         }
 
         /// <summary>
@@ -165,21 +164,22 @@ namespace Ads.WebApi.Controllers
         /// <param name="Id">Ad id (Guid)</param>
         /// <param name="UserId">UserId (Guid)</param>
         /// <returns>Returns NoContent</returns>
-        /// <response code="200">Success</response>
+        /// <response code="204">Success</response>
         /// <response code="400">Bad request</response>
         [HttpDelete("DeleteAd/{Id}&{UserId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ResponceDto>> DeleteAd(Guid Id, Guid UserId)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteAd(Guid Id, Guid UserId)
         {
             var command = new DeleteAdCommand
             {
                 UserId = UserId,
                 Id = Id
             };
-            var responce = await Mediator.Send(command);
-            if (!responce.IsSuccessful)
-                return BadRequest(responce.Message);
-            return Ok(responce);
+
+            await Mediator.Send(command);
+
+            return NoContent();
         }
     }
 }
