@@ -30,7 +30,8 @@ namespace Ads.Application.Ads.Queries.GetAdList
             var user = await _dbContext.AppUsers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
-            query = _dbContext.Ads.Include(x=>x.User);
+            
+            query = _dbContext.Ads.AsNoTracking().Include(x=>x.User);
             if (user != null)
             {
                 if (user.IsAdmin)
