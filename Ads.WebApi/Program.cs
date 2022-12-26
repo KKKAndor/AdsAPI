@@ -1,7 +1,7 @@
 using Ads.Application;
 using Ads.Application.Common.Mappings;
 using Ads.Application.Interfaces;
-using Ads.Infrastructure;
+using Ads.Persistence;
 using Ads.WebApi.Extensions;
 using Ads.WebApi.Middleware;
 using Microsoft.EntityFrameworkCore;

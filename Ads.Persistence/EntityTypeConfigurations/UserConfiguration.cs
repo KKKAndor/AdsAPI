@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ads.Domain.Entities;
 
-namespace Ads.Infrastructure.EntityTypeConfigurations
+namespace Ads.Persistence.EntityTypeConfigurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<AppUser>
     {
