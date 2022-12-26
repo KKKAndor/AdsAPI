@@ -1,4 +1,4 @@
-﻿namespace Ads.Persistence
+﻿namespace Ads.Infrastructure
 {
     public class DbInitializer
     {
