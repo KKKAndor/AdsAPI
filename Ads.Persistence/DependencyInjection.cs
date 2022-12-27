@@ -10,11 +10,8 @@ namespace Ads.Infrastructure
         public static IServiceCollection AddPersistence(this IServiceCollection
             services, IConfiguration configuration)
         {
-            var connectionString = configuration["SQLConnection"];
-            services.AddDbContext<AdsDbContext>(op =>
-            {
-                op.UseSqlServer(connectionString);
-            });
+            services.AddDbContext<AdsDbContext>(opts =>
+                opts.UseSqlServer(configuration.GetConnectionString("SQLConnection")));
             services.AddScoped<IAdsDbContext>(provider =>
                 provider.GetService<AdsDbContext>());
             return services;

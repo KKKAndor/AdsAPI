@@ -40,7 +40,8 @@ namespace Ads.Application.Ads.Commands.CreateAd
                 ImagePath = request.ImagePath,
                 Number = request.Number,
                 Rating = request.Rating,
-                UserId = request.UserId
+                UserId = request.UserId,
+                Deleted = false
             };
 
             await _dbContext.Ads.AddAsync(entity, cancellationToken);

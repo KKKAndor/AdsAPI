@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-
-namespace Ads.Domain.Entities
+﻿namespace Ads.Domain.Entities
 {
     public class Ad
     {
@@ -23,5 +19,9 @@ namespace Ads.Domain.Entities
         public DateTime CreationDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
+
+        public bool Deleted { get; set; } = false;
+        
+        public DateTime DeletedDate { get; set; }
     }
 }

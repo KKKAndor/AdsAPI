@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using Ads.Application.Common.Exceptions;
 using Ads.Application.Common.Responces;
 using MediatR;
 
@@ -35,12 +36,12 @@ public class UploadCommandHandler
             }
             catch (Exception ex)
             {
-                return new UploadResponseDto() { Message = $"Something went wrong while uploading files. Error {ex.Message}",IsSuccessful = false};
+                throw new ServerException(ex.Message);
             }
         }
         
         if(dbPaths.Count == 0)
-            return new UploadResponseDto() { Message = "No files were uploaded", IsSuccessful = false};
+            throw new ServerException("No files were uploaded");
 
         return new UploadResponseDto() { 
             Count = request.files.Count, 

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using Ads.Application.Common.Models;
 using Ads.Domain.Entities;
+using System.ComponentModel;
 
 namespace Ads.Application.Ads.Queries.GetAdList
 {
@@ -40,9 +41,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
                 }
             }
 
-            ApplyFilter(ref query, request.AdsParameters);
-            
-            ApplySearch(ref query, request.AdsParameters.Contain);
+            ApplySearchFilter(ref query, request.AdsParameters);            
             
             ApplySort(ref query, request.AdsParameters.OrderBy);
 
@@ -57,26 +56,23 @@ namespace Ads.Application.Ads.Queries.GetAdList
             return new AdListVm { Ads = pagedList };
         }
 
-        private void ApplySearch(ref IQueryable<Ad> query, string? contain)
+        private void ApplySearchFilter(ref IQueryable<Ad> query, AdsParameters? adsParameters)
         {
-            if(string.IsNullOrWhiteSpace(contain))
-                return;
-            query = query.Where(x => 
-                x.Description.ToLower().Contains(contain.ToLower()) ||
-                x.Number.ToString().Contains(contain.ToLower()) ||
-                x.User.UserName.Contains(contain.ToLower()));
-        }
-
-        private void ApplyFilter(ref IQueryable<Ad> query, AdsParameters requestAdsParameters)
-        {
-            if(requestAdsParameters.MinRating != null)
-                query = query.Where(x => x.Rating >= requestAdsParameters.MinRating);
-            if(requestAdsParameters.MaxRating != null)
-                query = query.Where(x => x.Rating <= requestAdsParameters.MaxRating);
-            if(requestAdsParameters.MinCreationDate != null)
-                query = query.Where(x => x.CreationDate >= requestAdsParameters.MinCreationDate.Value);
-            if(requestAdsParameters.MaxCreationDate != null)
-                query = query.Where(x => x.CreationDate <= requestAdsParameters.MaxCreationDate.Value);
+            if (adsParameters.MinRating != null)
+                query = query.Where(x => x.Rating >= adsParameters.MinRating);
+            if (adsParameters.MaxRating != null)
+                query = query.Where(x => x.Rating <= adsParameters.MaxRating);
+            if (adsParameters.MinCreationDate != null)
+                query = query.Where(x => x.CreationDate >= adsParameters.MinCreationDate.Value);
+            if (adsParameters.MaxCreationDate != null)
+                query = query.Where(x => x.CreationDate <= adsParameters.MaxCreationDate.Value);
+            if (!string.IsNullOrWhiteSpace(adsParameters.Contain))
+            {
+                query = query.Where(x =>
+                    x.Description.ToLower().Contains(adsParameters.Contain.ToLower()) ||
+                    x.Number.ToString().Contains(adsParameters.Contain.ToLower()) ||
+                    x.User.UserName.Contains(adsParameters.Contain.ToLower()));
+            }
         }
 
 
@@ -104,19 +100,19 @@ namespace Ads.Application.Ads.Queries.GetAdList
                         switch (objectProperty.Name.ToString())
                         {
                             case "CreationDate":
-                                query = query.OrderBy(x => x.CreationDate).Reverse();
+                                query = query.OrderByDescending(x => x.CreationDate);
                                 break;
                             case "ExpirationDate":
-                                query = query.OrderBy(x => x.ExpirationDate).Reverse();
+                                query = query.OrderByDescending(x => x.ExpirationDate);
                                 break;
                             case "Number":
-                                query = query.OrderBy(x => x.Number).Reverse();
+                                query = query.OrderByDescending(x => x.Number);
                                 break;
                             case "Description":
-                                query = query.OrderBy(x => x.Description).Reverse();
+                                query = query.OrderByDescending(x => x.Description);
                                 break;
                             case "Rating":
-                                query = query.OrderBy(x => x.Rating).Reverse();
+                                query = query.OrderByDescending(x => x.Rating);
                                 break;
                         }
                         break;

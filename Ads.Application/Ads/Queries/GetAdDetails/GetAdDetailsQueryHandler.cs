@@ -22,7 +22,7 @@ namespace Ads.Application.Ads.Queries.GetAdDetails
             var entity = await _dbContext.Ads
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a =>
-                a.Id == request.Id, cancellationToken);
+                a.Id == request.Id && a.Deleted == false, cancellationToken);
             
             if (entity == null)        
             {

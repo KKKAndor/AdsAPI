@@ -4,14 +4,13 @@ using Ads.Application.Interfaces;
 using Ads.Infrastructure;
 using Ads.WebApi.Extensions;
 using Ads.WebApi.Middleware;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Ads.WebApi.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
-builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(con =>
 {
     con.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
@@ -30,6 +29,7 @@ builder.Services.AddSwaggerGen(config =>
     config.IncludeXmlComments(xmlPath);
 });
 
+builder.Services.AddHostedService<BackgroundAdService>();
 
 
 var app = builder.Build();

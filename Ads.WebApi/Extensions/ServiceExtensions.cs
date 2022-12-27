@@ -19,9 +19,5 @@ namespace Ads.WebApi.Extensions
             services.Configure<IISOptions>(options =>
             {
             });
-
-        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-            services.AddDbContext<AdsDbContext>(opts =>
-                opts.UseSqlServer(configuration.GetConnectionString("SQLConnection")));
     }
 }

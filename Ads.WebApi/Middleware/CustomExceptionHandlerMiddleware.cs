@@ -43,7 +43,11 @@ namespace Ads.WebApi.Middleware
                     code = HttpStatusCode.BadRequest;
                     result = JsonSerializer.Serialize(badRequestException.Message);
                     break;
-    }
+                case ServerException serverException:
+                    code = HttpStatusCode.InternalServerError;
+                    result = JsonSerializer.Serialize((serverException.Message));
+                    break;
+            }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 
