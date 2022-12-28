@@ -1,6 +1,6 @@
-﻿using Ads.Application.Common.Models;
-using Ads.Application.User.Commands.CreateUser;
+﻿using Ads.Application.User.Commands.CreateUser;
 using Ads.Application.User.Queries.GetUserList;
+using Ads.Domain.Models;
 using Ads.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

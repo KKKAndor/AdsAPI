@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
-using Ads.Application.Common.Exceptions;
 using Ads.Application.Common.Responces;
+using Ads.Domain.Exceptions;
 using MediatR;
 
 namespace Ads.Application.Upload.Commands;

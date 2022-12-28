@@ -1,53 +1,23 @@
-﻿using Ads.Application.Common;
-using Ads.Application.Common.Exceptions;
-using Ads.Application.Interfaces;
+﻿
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ads.Application.Common.Responces;
-using Ads.Domain.Entities;
+using Ads.Domain.Interfaces;
 
 namespace Ads.Application.Ads.Commands.DeleteAd
 {
     public class DeleteAdCommandHandler
         : IRequestHandler<DeleteAdCommand>
     {
-        private readonly IAdsDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteAdCommandHandler(IAdsDbContext dbContext) =>
-            _dbContext = dbContext;
+        public DeleteAdCommandHandler(IUnitOfWork unitOfWork) =>
+            _unitOfWork = unitOfWork;
 
         public async Task<Unit> Handle(DeleteAdCommand request,
             CancellationToken cancellationToken)
         {
-            var user = await 
-                _dbContext.AppUsers.FirstOrDefaultAsync(
-                    u => u.Id == request.UserId, cancellationToken);
+            await _unitOfWork.Ads.DeleteAdAsync(request.UserId,request.Id,cancellationToken);
 
-            if (user == null)
-            {
-                throw new NotFoundException(nameof(AppUser), request.UserId);
-            }
-
-            var entity = await 
-                _dbContext.Ads.FindAsync(
-                    new object[] { request.Id }, cancellationToken);
-
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Ad), request.Id);
-            }
-
-            if (!user.IsAdmin && entity.UserId != request.UserId)
-                throw new BadRequestException("You cannot delete this Ad");
-
-            _dbContext.Ads.Remove(entity);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CompleteAsync(cancellationToken);
 
             return Unit.Value;
         }

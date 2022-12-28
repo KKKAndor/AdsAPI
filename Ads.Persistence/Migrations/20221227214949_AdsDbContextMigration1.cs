@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Ads.Infrastructure.Migrations
+namespace Ads.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class AdsDbContextMigration1 : Migration

@@ -1,26 +1,39 @@
 using Ads.Application;
 using Ads.Application.Common.Mappings;
-using Ads.Application.Interfaces;
-using Ads.Infrastructure;
 using Ads.WebApi.Extensions;
 using Ads.WebApi.Middleware;
 using System.Reflection;
+using Ads.Domain.Interfaces;
+using Ads.Persistence;
+using Ads.Persistence.Interfaces;
+using Ads.Persistence.Repositories;
+using Ads.Persistence.UnitOfWork;
 using Ads.WebApi.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
+
+builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddTransient<IAdRepository, AdRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddAutoMapper(typeof(AdsMappingConfig));
+
 builder.Services.AddAutoMapper(con =>
 {
     con.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
-    con.AddProfile(new AssemblyMappingProfile(typeof(IAdsDbContext).Assembly));
 });
 
-builder.Services.AddApplication();
-builder.Services.AddPersistence(builder.Configuration);
-builder.Services.AddControllers();
 
+
+builder.Services.AddApplication();
+
+builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen(config =>
 {

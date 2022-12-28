@@ -1,6 +1,4 @@
-using Ads.Application.Ads.Queries.GetAdList;
-using Ads.Application.Interfaces;
-using Ads.Infrastructure;
+using Ads.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.WebApi.BackgroundServices;

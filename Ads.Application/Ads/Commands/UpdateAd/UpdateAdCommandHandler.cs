@@ -1,44 +1,20 @@
-﻿using Ads.Application.Common;
-using Ads.Application.Common.Exceptions;
-using Ads.Application.Common.Responces;
-using Ads.Application.Interfaces;
-using Ads.Domain.Entities;
+﻿using Ads.Domain.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Application.Ads.Commands.UpdateAd
 {
     public class UpdateAdCommandHandler
         : IRequestHandler<UpdateAdCommand>
     {
-        private readonly IAdsDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateAdCommandHandler(IAdsDbContext dbContext) =>
-            _dbContext = dbContext;
+        public UpdateAdCommandHandler(IUnitOfWork unitOfWork) =>
+            _unitOfWork = unitOfWork;
 
         public async Task<Unit> Handle(UpdateAdCommand request,
             CancellationToken cancellationToken)
         {
-            var user = await 
-                _dbContext.AppUsers.FirstOrDefaultAsync(
-                    u => u.Id == request.UserId, cancellationToken);
-
-            if (user == null)
-            {
-                throw new NotFoundException(nameof(AppUser), request.UserId);
-            }
-
-            var entity = await 
-                _dbContext.Ads.FirstOrDefaultAsync(
-                    a => a.Id == request.Id, cancellationToken);
-
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Ad), request.Id);
-            }
-
-            if (!user.IsAdmin && entity.UserId != request.UserId)
-                throw new BadRequestException("You cannot update this add");
+            var entity = await _unitOfWork.Ads.GetAdForUpdateAsync(request.UserId, request.Id, cancellationToken);
 
             entity.ExpirationDate = request.ExpirationDate;
             entity.Description = request.Description;
@@ -46,7 +22,7 @@ namespace Ads.Application.Ads.Commands.UpdateAd
             entity.Rating = request.Rating;
             entity.Number = request.Number;
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CompleteAsync(cancellationToken);
 
             return Unit.Value;
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ads.Application.Common.Exceptions
+namespace Ads.Domain.Exceptions
 {
     public class NotFoundException : Exception
     {

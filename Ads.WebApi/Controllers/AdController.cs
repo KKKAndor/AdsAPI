@@ -4,8 +4,7 @@ using Ads.Application.Ads.Commands.UpdateAd;
 using Ads.Application.Ads.Queries.GetAdDetails;
 using Ads.Application.Ads.Queries.GetAdList;
 using Ads.Application.Common;
-using Ads.Application.Common.Models;
-using Ads.Application.Common.Responces;
+using Ads.Domain.Models;
 using Ads.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +26,7 @@ namespace Ads.WebApi.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET /Ad/GetAllAds?b8da677c-11b5-4895-b523-149233e10568
+        /// GET /Ad/GetAllAds?UserId=b8da677c-11b5-4895-b523-149233e10568
         ///                   &Contain=Some
         ///                   &MinRating=1
         ///                   &MaxRating=77
@@ -37,16 +36,14 @@ namespace Ads.WebApi.Controllers
         ///                   &PageSize=5&OrderBy=Number - desc
         /// </remarks>
         /// <returns>Returns AdListVm</returns>
-        /// <param name="UserId">UserID (Guid)</param>
         /// <param name="AdsParameters">User parameters for sorting, searching, filtering</param>
         /// <response code="200">Success</response>
         [HttpGet("GetAllAds")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<AdListVm>> GetAllAds(Guid UserId, [FromQuery] AdsParameters AdsParameters)
+        public async Task<ActionResult<PagedList<AdLookUpDto>>> GetAllAds([FromQuery] AdsParameters AdsParameters)
         {
             var query = new GetAdListQuery 
             {
-                UserId = UserId,
                 AdsParameters = AdsParameters
             };            
 

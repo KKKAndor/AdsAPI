@@ -1,7 +1,7 @@
-﻿using Ads.Application.Common.Exceptions;
-using FluentValidation;
+﻿using FluentValidation;
 using System.Net;
 using System.Text.Json;
+using Ads.Domain.Exceptions;
 
 namespace Ads.WebApi.Middleware
 {

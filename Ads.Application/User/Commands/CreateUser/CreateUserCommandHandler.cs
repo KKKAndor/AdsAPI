@@ -1,5 +1,5 @@
-﻿using Ads.Application.Interfaces;
-using Ads.Domain.Entities;
+﻿using Ads.Domain.Entities;
+using Ads.Domain.Interfaces;
 using MediatR;
 
 namespace Ads.Application.User.Commands.CreateUser
@@ -7,10 +7,10 @@ namespace Ads.Application.User.Commands.CreateUser
     public class CreateUserCommandHandler
         : IRequestHandler<CreateUserCommand, Guid>
     {
-        private readonly IAdsDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommandHandler(IAdsDbContext dbContext) =>
-            _dbContext = dbContext;
+        public CreateUserCommandHandler(IUnitOfWork unitOfWork) =>
+            _unitOfWork = unitOfWork;
 
         public async Task<Guid> Handle(CreateUserCommand request,
             CancellationToken cancellationToken)
@@ -21,9 +21,10 @@ namespace Ads.Application.User.Commands.CreateUser
                 IsAdmin = request.IsAdmin,
                 UserName = request.UserName
             };
+            
+            await _unitOfWork.Users.CreateUserAsync(entity, cancellationToken);
 
-            await _dbContext.AppUsers.AddAsync(entity, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CompleteAsync(cancellationToken);
 
             return entity.Id;
         }

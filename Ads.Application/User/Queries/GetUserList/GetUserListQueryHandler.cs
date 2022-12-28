@@ -1,40 +1,28 @@
 ﻿using Ads.Application.Common;
-using Ads.Application.Common.Exceptions;
-using Ads.Application.Interfaces;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Ads.Application.Common.Models;
 using Ads.Domain.Entities;
+using Ads.Domain.Interfaces;
 
 namespace Ads.Application.User.Queries.GetUserList
 {
     public class GetUserListQueryHandler
         : IRequestHandler<GetUserListQuery, UserDataListVm>
     {
-        private readonly IAdsDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
 
-        public GetUserListQueryHandler(IAdsDbContext dbContext,
-            IMapper mapper) => (_dbContext, _mapper) = (dbContext, mapper);
+        public GetUserListQueryHandler(IUnitOfWork unitOfWork,
+            IMapper mapper) => (_unitOfWork, _mapper) = (unitOfWork, mapper);
 
         public async Task<UserDataListVm> Handle(GetUserListQuery request,
             CancellationToken cancellationToken)
         {
-            IQueryable<AppUser> query = _dbContext.AppUsers
-                .AsNoTracking();
-            
-            ApplySearch(ref query, request.userParameters.Contain);
-            
-            ApplySort(ref query, request.userParameters.OrderBy);
+            var query = await _unitOfWork.Users.GetAllUsers(request.userParameters, cancellationToken);
 
             var pagedList = await PagedList<UserDataLookUpDto>
-                .ToMappedPagedList<AppUser, UserDataLookUpDto>(
+                .ToMappedPagedList<UserDataLookUpDto, AppUser>(
                     query,
                     request.userParameters.PageNumber,
                     request.userParameters.PageSize,
@@ -42,54 +30,6 @@ namespace Ads.Application.User.Queries.GetUserList
                     _mapper.ConfigurationProvider);
 
             return new UserDataListVm { UserList = pagedList };
-        }
-
-        private void ApplySearch(ref IQueryable<AppUser> query, string? contain)
-        {
-            if(string.IsNullOrWhiteSpace(contain))
-                return;
-            query = query.Where(x => 
-                x.UserName.ToLower().Contains(contain.ToLower()));
-        }
-
-        private void ApplySort(ref IQueryable<AppUser> query, string orderByQueryString)
-        {
-            if (string.IsNullOrWhiteSpace(orderByQueryString))
-            {
-                query = query.OrderBy(x => x.UserName);
-                return;
-            }
-            var orderParams = orderByQueryString.Trim().Split(',');
-            var propertyInfos = typeof(AppUser).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var param in orderParams)
-            {
-                if (string.IsNullOrWhiteSpace(param))
-                    continue;
-                var propertyFromQueryName = param.Split(" - ")[0];
-                var objectProperty = propertyInfos.FirstOrDefault(pi => pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
-                if (objectProperty == null)
-                    continue;
-                var sortingOrder = param.EndsWith(" desc") ? "descending" : "ascending";
-                switch (sortingOrder)
-                {
-                    case "descending":
-                        switch (objectProperty.Name.ToString())
-                        {
-                            case "UserName":
-                                query = query.OrderBy(x => x.UserName).Reverse();
-                                break;
-                        }
-                        break;
-                    case "ascending":
-                        switch (objectProperty.Name.ToString())
-                        {
-                            case "UserName":
-                                query = query.OrderBy(x => x.UserName);
-                                break;
-                        }
-                        break;
-                }
-            }
         }
     }
 }

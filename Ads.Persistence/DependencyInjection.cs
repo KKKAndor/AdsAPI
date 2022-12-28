@@ -1,9 +1,10 @@
-﻿using Ads.Application.Interfaces;
+﻿using Ads.Persistence;
+using Ads.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ads.Infrastructure
+namespace Ads.Persistence
 {
     public static class DependencyInjection
     {
