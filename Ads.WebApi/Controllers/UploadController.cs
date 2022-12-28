@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using Ads.Application.Common.Responces;
 using Ads.Application.Upload.Commands;
 
 namespace Ads.WebApi.Controllers
@@ -9,18 +7,24 @@ namespace Ads.WebApi.Controllers
     [ApiController]
     public class UploadController : BaseController
     {
-
         [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult<UploadResponseDto>> Upload(List<IFormFile> files)
+        public async Task<ActionResult<string>> Upload(IFormFile file)
         {
-            var command = new UploadCommand()
+            using (var stream = new MemoryStream())
             {
-                files = files
-            };
+                await file.CopyToAsync(stream);
+                var content = stream.ToArray();
+                
+                var command = new UploadCommand()
+                {
+                    FileName = file.ContentDisposition,
+                    FileContent = content
+                };
+                
+                var response = await Mediator.Send(command);
             
-            var response = await Mediator.Send(command);
-            
-            return Ok(response);
+                return Ok(response);
+            }
         }
     }
 }

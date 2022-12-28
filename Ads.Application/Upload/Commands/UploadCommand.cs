@@ -1,10 +1,10 @@
-﻿using Ads.Application.Common.Responces;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 
 namespace Ads.Application.Upload.Commands;
 
-public class UploadCommand: IRequest<UploadResponseDto>
+public class UploadCommand: IRequest<string>
 {
-    public List<IFormFile> files { get; set; }
+    public string FileName { get; set; }
+    
+    public byte[] FileContent { get; set; }
 }
