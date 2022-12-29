@@ -3,17 +3,19 @@ using Ads.Domain.Entities;
 using Ads.Domain.Interfaces;
 using Ads.Domain.Models;
 using Ads.Persistence.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Persistence.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository : MainRepository, IUserRepository
 {
     private readonly IAdsDbContext _dbContext;
-    
-    public UserRepository(IAdsDbContext context)
+    private readonly IMapper _mapper;
+    public UserRepository(IAdsDbContext context, IMapper mapper)
     {
         _dbContext = context;
+        _mapper = mapper;
     }
 
     public async Task CreateUserAsync(AppUser user, CancellationToken cancellationToken)
@@ -21,7 +23,7 @@ public class UserRepository : IUserRepository
         await _dbContext.AppUsers.AddAsync(user, cancellationToken);
     }
 
-    public async Task<IQueryable<AppUser>> GetAllUsers(UserParameters parameters, CancellationToken cancellationToken)
+    public async Task<PagedList<T>> GetAllUsers<T>(UserParameters parameters, CancellationToken cancellationToken)
     {
         IQueryable<AppUser> query = _dbContext.AppUsers
             .AsNoTracking();
@@ -30,7 +32,13 @@ public class UserRepository : IUserRepository
             
         ApplySort(ref query, parameters.OrderBy);
 
-        return query;
+        return await ToMappedPagedList<T, AppUser>(
+            query,
+            parameters.PageNumber,
+            parameters.PageSize,
+            cancellationToken,
+            _mapper.ConfigurationProvider
+        );;
     }
     
     private void ApplySearch(ref IQueryable<AppUser> query, string? contain)

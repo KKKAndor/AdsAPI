@@ -7,5 +7,5 @@ public interface IUserRepository
 {
     Task CreateUserAsync(AppUser user, CancellationToken cancellationToken);
 
-    Task<IQueryable<AppUser>> GetAllUsers(UserParameters parameters, CancellationToken cancellationToken);
+    Task<PagedList<T>> GetAllUsers<T>(UserParameters parameters, CancellationToken cancellationToken);
 }

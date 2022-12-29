@@ -1,4 +1,4 @@
-﻿using Ads.Application.Common;
+﻿using Ads.Domain.Models;
 
 namespace Ads.Application.User.Queries.GetUserList
 {

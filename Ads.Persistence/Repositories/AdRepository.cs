@@ -4,18 +4,21 @@ using Ads.Domain.Exceptions;
 using Ads.Domain.Interfaces;
 using Ads.Domain.Models;
 using Ads.Persistence.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ads.Persistence.Repositories;
 
-public class AdRepository : IAdRepository
+public class AdRepository : MainRepository, IAdRepository
 {
     private readonly IAdsDbContext _dbContext;
     private IAdRepository _adRepositoryImplementation;
+    private IMapper _mapper;
 
-    public AdRepository(IAdsDbContext context)
+    public AdRepository(IAdsDbContext context, IMapper mapper)
     {
         _dbContext = context;
+        _mapper = mapper;
     }
 
     public async Task CreateAdAsync(Guid UserId, Ad entity, CancellationToken cancellationToken)
@@ -102,7 +105,7 @@ public class AdRepository : IAdRepository
         return entity;
     }
 
-    public async Task<IQueryable<Ad>> GetAllAds(AdsParameters parameters, CancellationToken cancellationToken)
+    public async Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken)
     {
         IQueryable<Ad> query;
         
@@ -124,7 +127,13 @@ public class AdRepository : IAdRepository
             
         ApplySort(ref query, parameters.OrderBy);
 
-        return query;
+        return await ToMappedPagedList<T, Ad>(
+            query,
+            parameters.PageNumber,
+            parameters.PageSize,
+            cancellationToken,
+            _mapper.ConfigurationProvider
+            );
     }
     
     private void ApplySearchFilter(ref IQueryable<Ad> query, AdsParameters? adsParameters)

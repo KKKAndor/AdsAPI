@@ -17,6 +17,7 @@ builder.Services.ConfigureIISIntegration();
 
 builder.Services.AddPersistence(builder.Configuration);
 
+builder.Services.AddTransient(typeof(IMainRepository), typeof(MainRepository));
 builder.Services.AddTransient<IAdRepository, AdRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 
@@ -28,8 +29,6 @@ builder.Services.AddAutoMapper(con =>
 {
     con.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
 });
-
-
 
 builder.Services.AddApplication();
 

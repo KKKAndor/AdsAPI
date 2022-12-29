@@ -13,5 +13,5 @@ public interface IAdRepository
 
     Task<Ad> GetAdById(Guid Id, CancellationToken cancellationToken);
 
-    Task<IQueryable<Ad>> GetAllAds(AdsParameters parameters, CancellationToken cancellationToken);
+    Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken);
 } 
