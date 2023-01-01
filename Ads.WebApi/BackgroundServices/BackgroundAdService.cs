@@ -1,5 +1,6 @@
 using Ads.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Ads.WebApi.BackgroundServices;
 
@@ -20,18 +21,22 @@ public class BackgroundAdService : BackgroundService
             
             while (!stoppingToken.IsCancellationRequested)
             {
-                await context.Database.BeginTransactionAsync(stoppingToken);
-            
-                await context.Database.ExecuteSqlInterpolatedAsync(
-                    $"UPDATE dbo.Ads SET Deleted = 1, DeletedDate = GETDATE() WHERE DATEDIFF(day, ExpirationDate, GETDATE()) >= 10 AND Deleted = 0",
-                    stoppingToken);
+                await context.Ads
+                    .IgnoreQueryFilters()
+                    .Where(a => a.Deleted == false && EF.Functions.DateDiffDay(a.ExpirationDate, DateTime.Now) >= 10)
+                    .ExecuteUpdateAsync(a=>a.
+                        SetProperty(
+                        e=>e.Deleted,
+                        e=>true)
+                        .SetProperty(
+                            e=>e.DeletedDate,
+                            e => DateTime.Now), stoppingToken);
                 
-                await context.Database.ExecuteSqlInterpolatedAsync(
-                    $"DELETE FROM dbo.Ads WHERE Id IN (SELECT TAds.Id FROM dbo.Ads TAds WHERE TAds.Deleted = 1 AND DATEDIFF(day, TAds.DeletedDate, GETDATE()) >= 30)",
-                    stoppingToken);
-            
-                await context.Database.CommitTransactionAsync(stoppingToken);
-            
+                await context.Ads
+                    .IgnoreQueryFilters()
+                    .Where(a => a.Deleted == true && EF.Functions.DateDiffDay(a.DeletedDate, DateTime.Now) >= 30)
+                    .ExecuteDeleteAsync(stoppingToken);
+                
                 await Task.Delay(5000, stoppingToken);
             }
         }
