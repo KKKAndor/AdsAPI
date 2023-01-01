@@ -23,11 +23,10 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddAutoMapper(typeof(AdsMappingConfig));
-
 builder.Services.AddAutoMapper(con =>
 {
     con.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
+    con.AddProfile(new AssemblyMappingProfile());
 });
 
 builder.Services.AddApplication();

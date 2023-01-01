@@ -7,15 +7,18 @@ namespace Ads.Application.User.Queries.GetUserList
     public class GetUserListQueryHandler
         : IRequestHandler<GetUserListQuery, UserDataListVm>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        
+        private readonly IUserRepository _repository;
 
-        public GetUserListQueryHandler(IUnitOfWork unitOfWork,
-            IMapper mapper) => _unitOfWork = unitOfWork;
+        public GetUserListQueryHandler(IUserRepository repository)
+        {
+            _repository = repository;
+        }
 
         public async Task<UserDataListVm> Handle(GetUserListQuery request,
             CancellationToken cancellationToken)
         {
-            var pagedList = await _unitOfWork.Users.GetAllUsers<UserDataLookUpDto>(request.userParameters, cancellationToken);
+            var pagedList = await _repository.GetAllUsers<UserDataLookUpDto>(request.userParameters, cancellationToken);
 
             return new UserDataListVm { UserList = pagedList };
         }

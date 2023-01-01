@@ -11,7 +11,7 @@ public interface IAdRepository
 
     Task<Ad> GetAdForUpdateAsync(Guid UserID, Guid AdId, CancellationToken cancellationToken);
 
-    Task<Ad> GetAdById(Guid Id, CancellationToken cancellationToken);
+    Task<Ad> GetAdById(Guid AdId, CancellationToken cancellationToken);
 
     Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken);
 } 

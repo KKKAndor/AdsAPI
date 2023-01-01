@@ -13,7 +13,10 @@ namespace Ads.Application.Common.Mappings
         public AssemblyMappingProfile(Assembly assembly) =>
             ApplyMappingsFromAssembly(assembly);
 
-        public AssemblyMappingProfile(){}
+        public AssemblyMappingProfile()
+        {
+            ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+        }
         
         private void ApplyMappingsFromAssembly(Assembly assembly)
         {

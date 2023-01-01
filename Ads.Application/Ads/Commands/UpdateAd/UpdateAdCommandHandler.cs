@@ -7,14 +7,18 @@ namespace Ads.Application.Ads.Commands.UpdateAd
         : IRequestHandler<UpdateAdCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAdRepository _repository;
 
-        public UpdateAdCommandHandler(IUnitOfWork unitOfWork) =>
+        public UpdateAdCommandHandler(IUnitOfWork unitOfWork, IAdRepository repository)
+        {
             _unitOfWork = unitOfWork;
+            _repository = repository;
+        }
 
         public async Task<Unit> Handle(UpdateAdCommand request,
             CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.Ads.GetAdForUpdateAsync(request.UserId, request.Id, cancellationToken);
+            var entity = await _repository.GetAdForUpdateAsync(request.UserId, request.Id, cancellationToken);
 
             entity.ExpirationDate = request.ExpirationDate;
             entity.Description = request.Description;

@@ -8,14 +8,18 @@ namespace Ads.Application.Ads.Commands.DeleteAd
         : IRequestHandler<DeleteAdCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAdRepository _repository;
 
-        public DeleteAdCommandHandler(IUnitOfWork unitOfWork) =>
+        public DeleteAdCommandHandler(IUnitOfWork unitOfWork, IAdRepository repository)
+        {
             _unitOfWork = unitOfWork;
+            _repository = repository;
+        }
 
         public async Task<Unit> Handle(DeleteAdCommand request,
             CancellationToken cancellationToken)
         {
-            await _unitOfWork.Ads.DeleteAdAsync(request.UserId,request.Id,cancellationToken);
+            await _repository.DeleteAdAsync(request.UserId,request.Id,cancellationToken);
 
             await _unitOfWork.CompleteAsync(cancellationToken);
 

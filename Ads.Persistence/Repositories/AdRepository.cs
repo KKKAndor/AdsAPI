@@ -12,7 +12,6 @@ namespace Ads.Persistence.Repositories;
 public class AdRepository : MainRepository, IAdRepository
 {
     private readonly IAdsDbContext _dbContext;
-    private IAdRepository _adRepositoryImplementation;
     private IMapper _mapper;
 
     public AdRepository(IAdsDbContext context, IMapper mapper)
@@ -90,16 +89,16 @@ public class AdRepository : MainRepository, IAdRepository
         return entity;
     }
 
-    public async Task<Ad> GetAdById(Guid Id, CancellationToken cancellationToken)
+    public async Task<Ad> GetAdById(Guid AdId, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Ads
             .AsNoTracking()
             .FirstOrDefaultAsync(a =>
-                a.Id == Id && a.Deleted == false, cancellationToken);
+                a.Id == AdId && a.Deleted == false, cancellationToken);
             
         if (entity == null)        
         {
-            throw new NotFoundException(nameof(Ad), Id);
+            throw new NotFoundException(nameof(Ad), AdId);
         }
 
         return entity;

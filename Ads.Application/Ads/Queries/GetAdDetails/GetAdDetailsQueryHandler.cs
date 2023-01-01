@@ -7,16 +7,19 @@ namespace Ads.Application.Ads.Queries.GetAdDetails
     public class GetAdDetailsQueryHandler
         : IRequestHandler<GetAdDetailsQuery, AdDetailsVm>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IAdRepository _repository;
 
-        public GetAdDetailsQueryHandler(IUnitOfWork unitOfWork,
-            IMapper mapper) => (_unitOfWork, _mapper) = (unitOfWork, mapper);
+        public GetAdDetailsQueryHandler(IAdRepository repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
 
         public async Task<AdDetailsVm> Handle(GetAdDetailsQuery request,
             CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.Ads.GetAdById(request.Id, cancellationToken);
+            var entity = await _repository.GetAdById(request.Id, cancellationToken);
 
             return _mapper.Map<AdDetailsVm>(entity);
         }

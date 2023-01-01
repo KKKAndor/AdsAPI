@@ -61,7 +61,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseurl}}Ad/GetAllAds?UserId={{UserId}}&MinRating=1&MaxRating=90&PageNumber=1&OrderBy=User - desc&PageSize=30",
+									"raw": "{{baseurl}}Ad/GetAllAds?PageNumber=1&OrderBy=ExpirationDate - asc&PageSize=30",
 									"host": [
 										"{{baseurl}}Ad"
 									],
@@ -71,15 +71,18 @@
 									"query": [
 										{
 											"key": "UserId",
-											"value": "{{UserId}}"
+											"value": "{{UserId}}",
+											"disabled": true
 										},
 										{
 											"key": "MinRating",
-											"value": "1"
+											"value": "1",
+											"disabled": true
 										},
 										{
 											"key": "MaxRating",
-											"value": "90"
+											"value": "90",
+											"disabled": true
 										},
 										{
 											"key": "MinCreationDate",
@@ -97,7 +100,7 @@
 										},
 										{
 											"key": "OrderBy",
-											"value": "User - desc"
+											"value": "ExpirationDate - asc"
 										},
 										{
 											"key": "PageSize",
@@ -160,6 +163,9 @@
 											"    pm.response.to.have.status(201);\r",
 											"    var jsonData = JSON.parse(responseBody);\r",
 											"    postman.setEnvironmentVariable(\"AdId\", jsonData);\r",
+											"});\r",
+											"pm.test(\"Verify that status code is 400 for Normal User tries create more than 10 Ads\", function () {\r",
+											"    pm.response.to.have.status(400);    \r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -171,7 +177,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 90,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}\r\n",
+									"raw": "{\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 651684,\r\n    \"description\": \"Some another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 90,\r\n    \"expirationDate\": \"2022-12-30T00:00:00\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -202,8 +208,11 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Verify that status code is 204\", function () {\r",
+											"pm.test(\"Verify that status code is 204 for Ad owner or Admin\", function () {\r",
 											"    pm.response.to.have.status(204);    \r",
+											"});\r",
+											"pm.test(\"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors\", function () {\r",
+											"    pm.response.to.have.status(400);    \r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -215,7 +224,49 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 1,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
+									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 90,\r\n    \"expirationDate\": \"2022-12-26T00:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}Ad/UpdateAd",
+									"host": [
+										"{{baseurl}}Ad"
+									],
+									"path": [
+										"UpdateAd"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateAd with validation errors",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 204 for Ad owner or Admin\", function () {\r",
+											"    pm.response.to.have.status(204);    \r",
+											"});\r",
+											"pm.test(\"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors\", function () {\r",
+											"    pm.response.to.have.status(400);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"{{AdId}}\",\r\n    \"userId\": \"{{UserId}}\",\r\n    \"number\": 16584816,\r\n    \"description\": \"Some another another hard description\",\r\n    \"imagePath\": \"some/image/path\",\r\n    \"rating\": 101,\r\n    \"expirationDate\": \"2022-12-20T00:00:00\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -246,8 +297,11 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Verify that status code is 204\", function () {\r",
+											"pm.test(\"Verify that status code is 204 for Ad owner or Admin\", function () {\r",
 											"    pm.response.to.have.status(204);    \r",
+											"});\r",
+											"pm.test(\"Verify that status code is 400 for not Ad owner or not Admin or Validation Errors\", function () {\r",
+											"    pm.response.to.have.status(400);    \r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -282,6 +336,19 @@
 					"item": [
 						{
 							"name": "GetAllUsers without parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -299,6 +366,19 @@
 						},
 						{
 							"name": "GetAllUsers with parameters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify that status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],

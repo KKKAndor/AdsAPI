@@ -9,9 +9,13 @@ namespace Ads.Application.Ads.Commands.CreateAd
         : IRequestHandler<CreateAdCommand, Guid>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAdRepository _repository;
 
-        public CreateAdCommandHandler(IUnitOfWork unitOfWork) =>
+        public CreateAdCommandHandler(IUnitOfWork unitOfWork, IAdRepository repository)
+        {
             _unitOfWork = unitOfWork;
+            _repository = repository;
+        }
 
         public async Task<Guid> Handle(CreateAdCommand request,
             CancellationToken cancellationToken)
@@ -29,7 +33,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
                 Deleted = false
             };
             
-            await _unitOfWork.Ads.CreateAdAsync(request.UserId, entity, cancellationToken);
+            await _repository.CreateAdAsync(request.UserId, entity, cancellationToken);
             
             await _unitOfWork.CompleteAsync(cancellationToken);
 
