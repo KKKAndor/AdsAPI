@@ -7,5 +7,7 @@ namespace Ads.Application.Ads.Queries.GetAdDetails
     {
         [Required]
         public Guid Id { get; set; }
+        
+        public Guid UserId { get; set; } = Guid.Empty;
     }
 }

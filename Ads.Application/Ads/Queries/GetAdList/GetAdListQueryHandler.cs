@@ -1,10 +1,5 @@
-﻿using Ads.Application.Common;
-using Ads.Domain.Entities;
-using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Ads.Domain.Interfaces;
-using Ads.Domain.Models;
-using AutoMapper.QueryableExtensions;
 
 namespace Ads.Application.Ads.Queries.GetAdList
 {

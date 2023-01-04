@@ -1,5 +1,4 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using Ads.Domain.Interfaces;
 
 namespace Ads.Application.Ads.Commands.DeleteAd

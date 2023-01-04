@@ -1,5 +1,4 @@
 using Ads.Domain.Interfaces;
-using Ads.Persistence.Interfaces;
 using Ads.Persistence.Repositories;
 using AutoMapper;
 

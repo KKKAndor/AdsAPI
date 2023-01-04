@@ -1,5 +1,6 @@
 using System.Reflection;
 using Ads.Domain.Entities;
+using Ads.Domain.Exceptions;
 using Ads.Domain.Interfaces;
 using Ads.Domain.Models;
 using Ads.Persistence.Interfaces;
@@ -21,6 +22,11 @@ public class UserRepository : MainRepository, IUserRepository
     public async Task CreateUserAsync(AppUser user, CancellationToken cancellationToken)
     {
         await _dbContext.AppUsers.AddAsync(user, cancellationToken);
+    }
+
+    public async Task<AppUser> GetUserById(Guid UserId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == UserId, cancellationToken) ;
     }
 
     public async Task<PagedList<T>> GetAllUsers<T>(UserParameters parameters, CancellationToken cancellationToken)

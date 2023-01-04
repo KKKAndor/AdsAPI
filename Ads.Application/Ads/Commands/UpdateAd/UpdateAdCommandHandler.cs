@@ -18,13 +18,15 @@ namespace Ads.Application.Ads.Commands.UpdateAd
         public async Task<Unit> Handle(UpdateAdCommand request,
             CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetAdForUpdateAsync(request.UserId, request.Id, cancellationToken);
-
-            entity.ExpirationDate = request.ExpirationDate;
-            entity.Description = request.Description;
-            entity.ImagePath = request.ImagePath;
-            entity.Rating = request.Rating;
-            entity.Number = request.Number;
+            await _repository.UpdateAdAsync(
+                request.Id,
+                request.UserId,
+                request.Number,
+                request.Description,
+                request.ImagePath,
+                request.Rating,
+                request.ExpirationDate, 
+                cancellationToken);
 
             await _unitOfWork.CompleteAsync(cancellationToken);
 

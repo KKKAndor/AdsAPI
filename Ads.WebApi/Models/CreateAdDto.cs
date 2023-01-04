@@ -1,7 +1,6 @@
 ﻿using Ads.Application.Ads.Commands.CreateAd;
 using Ads.Application.Common.Mappings;
 using AutoMapper;
-using Microsoft.AspNetCore.SignalR;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ads.WebApi.Models

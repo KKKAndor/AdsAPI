@@ -1,5 +1,4 @@
-﻿using Ads.Persistence;
-using Ads.Persistence.Interfaces;
+﻿using Ads.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -19,12 +19,10 @@ namespace Ads.Application.User.Commands.CreateUser
         public async Task<Guid> Handle(CreateUserCommand request,
             CancellationToken cancellationToken)
         {
-            var entity = new AppUser
-            {
-                Id = Guid.NewGuid(),
-                IsAdmin = request.IsAdmin,
-                UserName = request.UserName
-            };
+            var entity = AppUser.Create(
+                Guid.NewGuid(),
+                request.UserName,
+                request.IsAdmin);
             
             await _repository.CreateUserAsync(entity, cancellationToken);
 

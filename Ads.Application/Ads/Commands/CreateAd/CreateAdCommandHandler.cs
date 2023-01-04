@@ -1,5 +1,4 @@
 ﻿using Ads.Domain.Entities;
-using Ads.Domain.Exceptions;
 using Ads.Domain.Interfaces;
 using MediatR;
 
@@ -20,20 +19,16 @@ namespace Ads.Application.Ads.Commands.CreateAd
         public async Task<Guid> Handle(CreateAdCommand request,
             CancellationToken cancellationToken)
         {
-            var entity = new Ad
-            {
-                Id = Guid.NewGuid(),
-                CreationDate = DateTime.Now,
-                Description = request.Description,
-                ExpirationDate = request.ExpirationDate,
-                ImagePath = request.ImagePath,
-                Number = request.Number,
-                Rating = request.Rating,
-                UserId = request.UserId,
-                Deleted = false
-            };
+            var entity = Ad.Create(
+                Guid.NewGuid(),
+                request.UserId,
+                request.Number,
+                request.Description,
+                request.ImagePath,
+                request.Rating,
+                request.ExpirationDate);
             
-            await _repository.CreateAdAsync(request.UserId, entity, cancellationToken);
+            await _repository.CreateAdAsync(entity, cancellationToken);
             
             await _unitOfWork.CompleteAsync(cancellationToken);
 

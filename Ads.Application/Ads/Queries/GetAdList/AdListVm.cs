@@ -1,5 +1,4 @@
-﻿using Ads.Application.Common;
-using Ads.Domain.Models;
+﻿using Ads.Domain.Models;
 
 namespace Ads.Application.Ads.Queries.GetAdList
 {

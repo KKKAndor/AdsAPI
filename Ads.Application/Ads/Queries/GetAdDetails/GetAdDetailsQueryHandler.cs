@@ -19,7 +19,7 @@ namespace Ads.Application.Ads.Queries.GetAdDetails
         public async Task<AdDetailsVm> Handle(GetAdDetailsQuery request,
             CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetAdById(request.Id, cancellationToken);
+            var entity = await _repository.GetAdById(request.Id, request.UserId, cancellationToken);
 
             return _mapper.Map<AdDetailsVm>(entity);
         }

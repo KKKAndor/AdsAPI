@@ -1,7 +1,4 @@
-﻿using Ads.Persistence;
-using Microsoft.EntityFrameworkCore;
-
-namespace Ads.WebApi.Extensions
+﻿namespace Ads.WebApi.Extensions
 {
     public static class ServiceExtensions
     {

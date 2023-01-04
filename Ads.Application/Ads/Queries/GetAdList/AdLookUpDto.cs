@@ -13,8 +13,10 @@ namespace Ads.Application.Ads.Queries.GetAdList
         public int Number { get; set; }
 
         public string Description { get; set; }
+        
+        public string ImagePath { get; set; }
 
-        public int Rating { get; set; }
+            public int Rating { get; set; }
 
         public DateTime CreationDate { get; set; }
 
@@ -31,6 +33,8 @@ namespace Ads.Application.Ads.Queries.GetAdList
                     opt => opt.MapFrom(ap => ap.Number))
                 .ForMember(Vm => Vm.Description,
                     opt => opt.MapFrom(ap => ap.Description))
+                .ForMember(Vm => Vm.ImagePath,
+                    opt => opt.MapFrom(ap => ap.ImagePath))
                 .ForMember(Vm => Vm.Rating,
                     opt => opt.MapFrom(ap => ap.Rating))
                 .ForMember(Vm => Vm.CreationDate,

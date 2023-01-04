@@ -7,5 +7,7 @@ public interface IUserRepository
 {
     Task CreateUserAsync(AppUser user, CancellationToken cancellationToken);
 
+    Task<AppUser> GetUserById(Guid UserId, CancellationToken cancellationToken);
+    
     Task<PagedList<T>> GetAllUsers<T>(UserParameters parameters, CancellationToken cancellationToken);
 }

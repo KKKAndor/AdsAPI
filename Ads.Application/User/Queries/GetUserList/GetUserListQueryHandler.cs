@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Ads.Domain.Interfaces;
 
 namespace Ads.Application.User.Queries.GetUserList

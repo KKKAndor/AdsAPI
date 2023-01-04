@@ -20,16 +20,16 @@ public class AdRepository : MainRepository, IAdRepository
         _mapper = mapper;
     }
 
-    public async Task CreateAdAsync(Guid UserId, Ad entity, CancellationToken cancellationToken)
+    public async Task CreateAdAsync(Ad entity, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == UserId, cancellationToken);
+        var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == entity.UserId, cancellationToken);
 
         if (user == null)
         {
-            throw new NotFoundException(nameof(AppUser), UserId);
+            throw new NotFoundException(nameof(AppUser), entity.UserId);
         }
             
-        var count = await _dbContext.Ads.Where(ad => ad.UserId == UserId).CountAsync(cancellationToken) + 1;
+        var count = await _dbContext.Ads.Where(ad => ad.UserId == entity.UserId).CountAsync(cancellationToken) + 1;
 
         if (count > 10 && !user.IsAdmin)
             throw new BadRequestException("You cannot create more than 10 Ads");
@@ -37,68 +37,97 @@ public class AdRepository : MainRepository, IAdRepository
         await _dbContext.Ads.AddAsync(entity, cancellationToken);
     }
 
-    public async Task DeleteAdAsync(Guid UserId, Guid AdId, CancellationToken cancellationToken)
+    public async Task DeleteAdAsync(Guid userId, Guid adId, CancellationToken cancellationToken)
     {
         var user = await 
             _dbContext.AppUsers.FirstOrDefaultAsync(
-                u => u.Id == UserId, cancellationToken);
+                u => u.Id == userId, cancellationToken);
 
+        IQueryable<Ad> query = _dbContext.Ads;
+        
         if (user == null)
         {
-            throw new NotFoundException(nameof(AppUser), UserId);
+            throw new NotFoundException(nameof(AppUser), userId);
         }
+        if (user.IsAdmin)
+            query = query.IgnoreQueryFilters();
 
-        var entity = await 
-            _dbContext.Ads.FindAsync(
-                new object[] { AdId }, cancellationToken);
+        var entity = await query.FirstOrDefaultAsync(
+            a => a.Id == adId, cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Ad), AdId);
+            throw new NotFoundException(nameof(Ad), adId);
         }
 
-        if (!user.IsAdmin && entity.UserId != AdId)
+        if (!user.IsAdmin && entity.UserId != userId)
             throw new BadRequestException("You cannot delete this Ad");
 
         _dbContext.Ads.Remove(entity);
     }
 
-    public async Task<Ad> GetAdForUpdateAsync(Guid UserId, Guid AdId, CancellationToken cancellationToken)
+    public async Task UpdateAdAsync(Guid adId, Guid userId, int number, string description, 
+        string imagePath, int rating, DateTime expirationDate, CancellationToken cancellationToken)
     {
         var user = await 
             _dbContext.AppUsers.FirstOrDefaultAsync(
-                u => u.Id == UserId, cancellationToken);
+                u => u.Id == userId, cancellationToken);
 
+        IQueryable<Ad> query = _dbContext.Ads;
+        
         if (user == null)
         {
-            throw new NotFoundException(nameof(AppUser), UserId);
+            throw new NotFoundException(nameof(AppUser), userId);
         }
+        if (user.IsAdmin)
+            query = query.IgnoreQueryFilters();
 
-        var entity = await 
-            _dbContext.Ads.FirstOrDefaultAsync(
-                a => a.Id == AdId, cancellationToken);
+        var entity = await query.FirstOrDefaultAsync(
+                a => a.Id == adId, cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Ad), AdId);
+            throw new NotFoundException(nameof(Ad), adId);
         }
 
-        if (!user.IsAdmin && entity.UserId != UserId)
+        if (!user.IsAdmin && entity.UserId != userId)
             throw new BadRequestException("You cannot update this add");
 
-        return entity;
+        entity.Update(
+            number,
+            description,
+            imagePath,
+            rating,
+            expirationDate
+            );
     }
 
-    public async Task<Ad> GetAdById(Guid AdId, CancellationToken cancellationToken)
+    public async Task<Ad> GetAdById(Guid adId, Guid userId, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Ads
+        var user = await _dbContext.AppUsers
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+            
+        IQueryable<Ad> query = _dbContext.Ads
+            .AsNoTracking()
+            .Include(x=>x.User);
+        
+        if (user != null)
+        {
+            if (user.IsAdmin)
+            {
+                query = query.IgnoreQueryFilters();
+            }
+        }
+        
+        var entity = await query
             .AsNoTracking()
             .FirstOrDefaultAsync(a =>
-                a.Id == AdId && a.Deleted == false, cancellationToken);
+                a.Id == adId && a.Deleted == false, cancellationToken);
             
         if (entity == null)        
         {
-            throw new NotFoundException(nameof(Ad), AdId);
+            throw new NotFoundException(nameof(Ad), adId);
         }
 
         return entity;
@@ -106,13 +135,13 @@ public class AdRepository : MainRepository, IAdRepository
 
     public async Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken)
     {
-        IQueryable<Ad> query;
-        
         var user = await _dbContext.AppUsers
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == parameters.UserId, cancellationToken);
             
-        query = _dbContext.Ads.AsNoTracking().Include(x=>x.User);
+        IQueryable<Ad> query = _dbContext.Ads
+            .AsNoTracking()
+            .Include(x=>x.User);
         
         if (user != null)
         {
@@ -135,7 +164,7 @@ public class AdRepository : MainRepository, IAdRepository
             );
     }
     
-    private void ApplySearchFilter(ref IQueryable<Ad> query, AdsParameters? adsParameters)
+    private static void ApplySearchFilter(ref IQueryable<Ad> query, AdsParameters? adsParameters)
     {
         if (adsParameters.MinRating != null)
             query = query.Where(x => x.Rating >= adsParameters.MinRating);
@@ -155,7 +184,7 @@ public class AdRepository : MainRepository, IAdRepository
         }
         
     }
-    private void ApplySort(ref IQueryable<Ad> query, string orderByQueryString)
+    private static void ApplySort(ref IQueryable<Ad> query, string orderByQueryString)
     {
         if (string.IsNullOrWhiteSpace(orderByQueryString))
         {

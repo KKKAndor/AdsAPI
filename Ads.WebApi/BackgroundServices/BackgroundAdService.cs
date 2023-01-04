@@ -1,6 +1,5 @@
 using Ads.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Ads.WebApi.BackgroundServices;
 

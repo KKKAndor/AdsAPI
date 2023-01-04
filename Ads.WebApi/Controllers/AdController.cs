@@ -3,7 +3,6 @@ using Ads.Application.Ads.Commands.DeleteAd;
 using Ads.Application.Ads.Commands.UpdateAd;
 using Ads.Application.Ads.Queries.GetAdDetails;
 using Ads.Application.Ads.Queries.GetAdList;
-using Ads.Application.Common;
 using Ads.Domain.Models;
 using Ads.WebApi.Models;
 using AutoMapper;
@@ -69,18 +68,19 @@ namespace Ads.WebApi.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET /Ad/GetAd/b8da677c-11b5-4895-b523-149233e10568
+        /// GET /Ad/GetAd/b8da677c-11b5-4895-b523-149233e10568?UserId=b8da677c-11b5-4895-b523-149233e10568
         /// </remarks>
         /// <returns>Returns AdListVm</returns>
         /// <param name="Id">ID (Guid)</param>
         /// <response code="200">Success</response>
         [HttpGet("GetAd/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<AdDetailsVm>> GetAd(Guid Id)
+        public async Task<ActionResult<AdDetailsVm>> GetAd(Guid Id, [FromQuery]Guid UserId)
         {
             var query = new GetAdDetailsQuery
             {
-                Id = Id
+                Id = Id,
+                UserId = UserId
             };
 
             var vm = await Mediator.Send(query);

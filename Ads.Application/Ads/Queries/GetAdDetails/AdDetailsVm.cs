@@ -1,18 +1,14 @@
-﻿using Ads.Application.Ads.Queries.GetAdList;
-using Ads.Application.Common.Mappings;
+﻿using Ads.Application.Common.Mappings;
 using Ads.Domain.Entities;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ads.Application.Ads.Queries.GetAdDetails
 {
     public class AdDetailsVm : IMapWith<Ad>
     {
         public Guid Id { get; set; }
+        
+        public string UserName { get; set; }
 
         public int Number { get; set; }
 
@@ -31,6 +27,8 @@ namespace Ads.Application.Ads.Queries.GetAdDetails
             profile.CreateMap<Ad, AdDetailsVm>()
                 .ForMember(Vm => Vm.Id,
                     opt => opt.MapFrom(ap => ap.Id))
+                .ForMember(Vm => Vm.UserName,
+                    opt => opt.MapFrom(ap => ap.User.UserName))
                 .ForMember(Vm => Vm.Number,
                     opt => opt.MapFrom(ap => ap.Number))
                 .ForMember(Vm => Vm.Description,

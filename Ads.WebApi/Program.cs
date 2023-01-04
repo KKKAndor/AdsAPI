@@ -5,7 +5,6 @@ using Ads.WebApi.Middleware;
 using System.Reflection;
 using Ads.Domain.Interfaces;
 using Ads.Persistence;
-using Ads.Persistence.Interfaces;
 using Ads.Persistence.Repositories;
 using Ads.Persistence.UnitOfWork;
 using Ads.WebApi.BackgroundServices;
