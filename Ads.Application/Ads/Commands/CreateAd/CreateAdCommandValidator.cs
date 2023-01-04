@@ -17,7 +17,7 @@ namespace Ads.Application.Ads.Commands.CreateAd
                 .NotEmpty()
                 .WithMessage("You should add some description in your add")
                 .MaximumLength(500)
-                .WithMessage("The description length must be lesse than 500");
+                .WithMessage("The description length must be lesser than 500");
             RuleFor(command =>
                 command.ImagePath)
                 .NotEmpty();

@@ -18,7 +18,7 @@ namespace Ads.Application.Ads.Commands.DeleteAd
         public async Task<Unit> Handle(DeleteAdCommand request,
             CancellationToken cancellationToken)
         {
-            await _repository.DeleteAdAsync(request.UserId,request.Id,cancellationToken);
+            await _repository.DeleteAdAsync(request.Id, request.UserId, cancellationToken);
 
             await _unitOfWork.CompleteAsync(cancellationToken);
 

@@ -1,4 +1,6 @@
-﻿namespace Ads.Domain.Entities
+﻿using Ads.Domain.Primitives;
+
+namespace Ads.Domain.Entities
 {
     public class AppUser
     {
@@ -11,11 +13,12 @@
             UserName = userName;
             IsAdmin = isAdmin;
         }
-        public Guid Id { get; set; }
+        
+        public Guid Id { get; private init; }
 
-        public string UserName { get; set; }
+        public string UserName { get; private set; }
 
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; private set; }
 
         public IList<Ad> Ads { get; set; }
 

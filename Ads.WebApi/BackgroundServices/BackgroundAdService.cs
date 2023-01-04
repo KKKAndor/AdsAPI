@@ -12,7 +12,7 @@ public class BackgroundAdService : BackgroundService
         _provider = provider;
     }
 
-    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using (var scope = _provider.CreateScope())
         {

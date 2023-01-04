@@ -24,9 +24,9 @@ public class UserRepository : MainRepository, IUserRepository
         await _dbContext.AppUsers.AddAsync(user, cancellationToken);
     }
 
-    public async Task<AppUser> GetUserById(Guid UserId, CancellationToken cancellationToken)
+    public async Task<AppUser> GetUserById(Guid userId, CancellationToken cancellationToken)
     {
-        return await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == UserId, cancellationToken) ;
+        return await _dbContext.AppUsers.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
 
     public async Task<PagedList<T>> GetAllUsers<T>(UserParameters parameters, CancellationToken cancellationToken)

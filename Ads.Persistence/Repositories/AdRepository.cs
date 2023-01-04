@@ -12,17 +12,19 @@ namespace Ads.Persistence.Repositories;
 public class AdRepository : MainRepository, IAdRepository
 {
     private readonly IAdsDbContext _dbContext;
-    private IMapper _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public AdRepository(IAdsDbContext context, IMapper mapper)
+    public AdRepository(IAdsDbContext context, IUserRepository userRepository, IMapper mapper)
     {
         _dbContext = context;
+        _userRepository = userRepository;
         _mapper = mapper;
     }
 
     public async Task CreateAdAsync(Ad entity, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.AppUsers.FirstOrDefaultAsync(u => u.Id == entity.UserId, cancellationToken);
+        var user = await _userRepository.GetUserById(entity.UserId, cancellationToken);
 
         if (user == null)
         {
@@ -37,18 +39,17 @@ public class AdRepository : MainRepository, IAdRepository
         await _dbContext.Ads.AddAsync(entity, cancellationToken);
     }
 
-    public async Task DeleteAdAsync(Guid userId, Guid adId, CancellationToken cancellationToken)
+    public async Task DeleteAdAsync(Guid adId, Guid userId, CancellationToken cancellationToken)
     {
-        var user = await 
-            _dbContext.AppUsers.FirstOrDefaultAsync(
-                u => u.Id == userId, cancellationToken);
+        var user = await _userRepository.GetUserById(userId, cancellationToken);
 
-        IQueryable<Ad> query = _dbContext.Ads;
-        
         if (user == null)
         {
             throw new NotFoundException(nameof(AppUser), userId);
         }
+
+        IQueryable<Ad> query = _dbContext.Ads;
+        
         if (user.IsAdmin)
             query = query.IgnoreQueryFilters();
 
@@ -69,16 +70,15 @@ public class AdRepository : MainRepository, IAdRepository
     public async Task UpdateAdAsync(Guid adId, Guid userId, int number, string description, 
         string imagePath, int rating, DateTime expirationDate, CancellationToken cancellationToken)
     {
-        var user = await 
-            _dbContext.AppUsers.FirstOrDefaultAsync(
-                u => u.Id == userId, cancellationToken);
+        var user = await _userRepository.GetUserById(userId, cancellationToken);
 
-        IQueryable<Ad> query = _dbContext.Ads;
-        
         if (user == null)
         {
             throw new NotFoundException(nameof(AppUser), userId);
         }
+
+        IQueryable<Ad> query = _dbContext.Ads;
+        
         if (user.IsAdmin)
             query = query.IgnoreQueryFilters();
 
@@ -104,12 +104,9 @@ public class AdRepository : MainRepository, IAdRepository
 
     public async Task<Ad> GetAdById(Guid adId, Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.AppUsers
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
-            
+        var user = await _userRepository.GetUserById(userId, cancellationToken);
+
         IQueryable<Ad> query = _dbContext.Ads
-            .AsNoTracking()
             .Include(x=>x.User);
         
         if (user != null)
@@ -119,7 +116,7 @@ public class AdRepository : MainRepository, IAdRepository
                 query = query.IgnoreQueryFilters();
             }
         }
-        
+
         var entity = await query
             .AsNoTracking()
             .FirstOrDefaultAsync(a =>
@@ -135,9 +132,7 @@ public class AdRepository : MainRepository, IAdRepository
 
     public async Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.AppUsers
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == parameters.UserId, cancellationToken);
+        var user = await _userRepository.GetUserById(parameters.UserId, cancellationToken);
             
         IQueryable<Ad> query = _dbContext.Ads
             .AsNoTracking()
@@ -184,6 +179,7 @@ public class AdRepository : MainRepository, IAdRepository
         }
         
     }
+    
     private static void ApplySort(ref IQueryable<Ad> query, string orderByQueryString)
     {
         if (string.IsNullOrWhiteSpace(orderByQueryString))

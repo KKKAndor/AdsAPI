@@ -8,7 +8,7 @@ namespace Ads.Persistence.Repositories;
 
 public class MainRepository : IMainRepository
 {
-    public static async Task<PagedList<TOut>> ToMappedPagedList<TOut, TIn>(
+    public async Task<PagedList<TOut>> ToMappedPagedList<TOut, TIn>(
         IQueryable<TIn> source, 
         int pageNumber, 
         int pageSize, 

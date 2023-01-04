@@ -1,6 +1,8 @@
-﻿namespace Ads.Domain.Entities
+﻿using Ads.Domain.Primitives;
+
+namespace Ads.Domain.Entities
 {
-    public class Ad
+    public class Ad : IAuditableEntity
     {
         private Ad(
             Guid id,
@@ -18,9 +20,9 @@
             ImagePath = imagePath;
             Rating = rating;
             ExpirationDate = expirationDate;
-            CreationDate = DateTime.Now;
         }
-        public Guid Id { get; private set; }
+        
+        public Guid Id { get; private init; }
 
         public AppUser User { get; private set; }
 
@@ -34,7 +36,7 @@
 
         public int Rating { get; private set; }
 
-        public DateTime CreationDate { get; private set; }
+        public DateTime CreationDate { get; set; }
 
         public DateTime ExpirationDate { get; private set; }
 
