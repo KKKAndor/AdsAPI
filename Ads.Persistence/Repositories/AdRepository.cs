@@ -175,7 +175,6 @@ public class AdRepository : MainRepository, IAdRepository
                 x.Description.ToLower().Contains(adsParameters.Contain.ToLower()) ||
                 x.Number.ToString().Contains(adsParameters.Contain.ToLower()) ||
                 x.User.UserName.Contains(adsParameters.Contain.ToLower()));
-            
         }
         
     }
@@ -186,7 +185,6 @@ public class AdRepository : MainRepository, IAdRepository
         {
             query = query.OrderBy(x => x.ExpirationDate);
             return;
-            
         }
         var orderParams = orderByQueryString.Trim().Split(',');
         var propertyInfos = typeof(Ad).GetProperties(BindingFlags.Public | BindingFlags.Instance);

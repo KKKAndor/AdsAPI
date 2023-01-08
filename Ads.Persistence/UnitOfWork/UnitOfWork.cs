@@ -20,11 +20,11 @@ public class UnitOfWork : IUnitOfWork
     public IAdRepository Ads { get; private set; }
     public IUserRepository Users { get; private set; }
 
-    public Task<int> CompleteAsync(CancellationToken cancellationToken)
+    public async Task<int> CompleteAsync(CancellationToken cancellationToken)
     {
         UpdateAuditableEntities();
         
-        return _context.SaveChangesAsync(cancellationToken);
+        return await _context.SaveChangesAsync(cancellationToken);
     }
     public void Dispose()
     {
