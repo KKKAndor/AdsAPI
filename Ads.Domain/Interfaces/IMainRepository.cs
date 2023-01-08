@@ -5,7 +5,7 @@ namespace Ads.Domain.Interfaces;
 
 public interface IMainRepository
 {
-    Task<PagedList<TOut>> ToMappedPagedList<TOut, TIn>(
+    Task<PagedList<TOut>> ToMappedPagedListAsync<TOut, TIn>(
         IQueryable<TIn> source,
         int pageNumber,
         int pageSize,

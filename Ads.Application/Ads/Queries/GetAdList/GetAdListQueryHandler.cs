@@ -16,7 +16,7 @@ namespace Ads.Application.Ads.Queries.GetAdList
         public async Task<AdListVm> Handle(GetAdListQuery request,
             CancellationToken cancellationToken)
         {
-            var pagedList = await _repository.GetAllAds<AdLookUpDto>(request.AdsParameters, cancellationToken);
+            var pagedList = await _repository.GetAllAdsAsync<AdLookUpDto>(request.AdsParameters, cancellationToken);
 
             return new AdListVm { Ads = pagedList };
         }

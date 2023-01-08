@@ -17,7 +17,7 @@ namespace Ads.Application.User.Queries.GetUserList
         public async Task<UserDataListVm> Handle(GetUserListQuery request,
             CancellationToken cancellationToken)
         {
-            var pagedList = await _repository.GetAllUsers<UserDataLookUpDto>(request.userParameters, cancellationToken);
+            var pagedList = await _repository.GetAllUsersAsync<UserDataLookUpDto>(request.userParameters, cancellationToken);
 
             return new UserDataListVm { UserList = pagedList };
         }

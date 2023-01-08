@@ -18,7 +18,7 @@ public interface IAdRepository
         int rating,
         DateTime expirationDate, CancellationToken cancellationToken);
 
-    Task<Ad> GetAdById(Guid adId, Guid userId, CancellationToken cancellationToken);
+    Task<Ad> GetAdByIdAsync(Guid adId, Guid userId, CancellationToken cancellationToken);
 
-    Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken);
+    Task<PagedList<T>> GetAllAdsAsync<T>(AdsParameters parameters, CancellationToken cancellationToken);
 } 

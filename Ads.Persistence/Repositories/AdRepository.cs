@@ -24,7 +24,7 @@ public class AdRepository : MainRepository, IAdRepository
 
     public async Task CreateAdAsync(Ad entity, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(entity.UserId, cancellationToken);
+        var user = await _userRepository.GetUserByIdAsync(entity.UserId, cancellationToken);
 
         if (user == null)
         {
@@ -41,7 +41,7 @@ public class AdRepository : MainRepository, IAdRepository
 
     public async Task DeleteAdAsync(Guid adId, Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(userId, cancellationToken);
+        var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
 
         if (user == null)
         {
@@ -70,7 +70,7 @@ public class AdRepository : MainRepository, IAdRepository
     public async Task UpdateAdAsync(Guid adId, Guid userId, int number, string description, 
         string imagePath, int rating, DateTime expirationDate, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(userId, cancellationToken);
+        var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
 
         if (user == null)
         {
@@ -102,9 +102,9 @@ public class AdRepository : MainRepository, IAdRepository
             );
     }
 
-    public async Task<Ad> GetAdById(Guid adId, Guid userId, CancellationToken cancellationToken)
+    public async Task<Ad> GetAdByIdAsync(Guid adId, Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(userId, cancellationToken);
+        var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
 
         IQueryable<Ad> query = _dbContext.Ads
             .Include(x=>x.User);
@@ -130,9 +130,9 @@ public class AdRepository : MainRepository, IAdRepository
         return entity;
     }
 
-    public async Task<PagedList<T>> GetAllAds<T>(AdsParameters parameters, CancellationToken cancellationToken)
+    public async Task<PagedList<T>> GetAllAdsAsync<T>(AdsParameters parameters, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(parameters.UserId, cancellationToken);
+        var user = await _userRepository.GetUserByIdAsync(parameters.UserId, cancellationToken);
             
         IQueryable<Ad> query = _dbContext.Ads
             .AsNoTracking()
@@ -150,7 +150,7 @@ public class AdRepository : MainRepository, IAdRepository
             
         ApplySort(ref query, parameters.OrderBy);
 
-        return await ToMappedPagedList<T, Ad>(
+        return await ToMappedPagedListAsync<T, Ad>(
             query,
             parameters.PageNumber,
             parameters.PageSize,
